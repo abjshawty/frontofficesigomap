@@ -25,7 +25,7 @@ const UserDetailPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="mb-6">
-        <Link to="/admin/users" className="text-emerald-600 hover:underline text-sm">
+        <Link to="/admin/users" className="text-primary hover:underline text-sm">
           &larr; Retour à la liste
         </Link>
       </div>
@@ -85,7 +85,7 @@ const UserDetailPage: React.FC = () => {
                       {user.permissions.map((permission) => (
                         <span
                           key={permission}
-                          className="inline-flex px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-800 rounded-full"
+                          className="inline-flex px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
                         >
                           {permission}
                         </span>
@@ -98,7 +98,7 @@ const UserDetailPage: React.FC = () => {
           </div>
 
           <div className="mt-8 flex space-x-4">
-            <button className="bg-emerald-600 text-white py-2 px-4 border border-transparent rounded-md text-sm font-medium hover:bg-emerald-700">
+            <button className="bg-primary text-white py-2 px-4 border border-transparent rounded-md text-sm font-medium hover:bg-primary/90">
               Modifier l'utilisateur
             </button>
             <button className="bg-gray-200 text-gray-700 py-2 px-4 border border-transparent rounded-md text-sm font-medium hover:bg-gray-300">

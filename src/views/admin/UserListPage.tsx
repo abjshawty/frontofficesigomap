@@ -157,7 +157,7 @@ const UserListPage = () => {
         <h1 className="text-3xl font-bold text-gray-800">Gestion des utilisateurs</h1>
         <Link
           to="/admin/users/create"
-          className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white border border-transparent rounded-md text-sm font-medium hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          className="inline-flex items-center px-4 py-2 bg-primary text-white border border-transparent rounded-md text-sm font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
         >
           Ajouter un utilisateur
         </Link>
@@ -336,7 +336,7 @@ const UserListPage = () => {
                         </Select>
                       </div>
                       <div className="flex items-end">
-                        <Button className="bg-green-600 hover:bg-green-700">
+                        <Button className="bg-primary hover:bg-primary/90">
                           Confirmer
                         </Button>
                       </div>

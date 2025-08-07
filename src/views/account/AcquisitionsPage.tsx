@@ -62,7 +62,7 @@ const AcquisitionsPage: React.FC = () => {
         <div className="flex items-center gap-4">
           <Link 
             to="/dashboard"
-            className="flex items-center gap-3 hover:bg-green-pastel/50 p-2 rounded-lg transition-colors duration-300"
+            className="flex items-center gap-3 hover:bg-accent/50 p-2 rounded-lg transition-colors duration-300"
           >
             <ArrowLeft className="w-5 h-5 text-primary" />
             <span className="text-sm font-medium text-foreground">Retour au dashboard</span>
@@ -83,7 +83,7 @@ const AcquisitionsPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Bandeau de titre */}
         <motion.div 
-          className="bg-gradient-to-r from-green-pastel via-green-pastel/80 to-green-pastel border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden"
+          className="bg-gradient-to-r from-accent via-accent/80 to-accent border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -209,13 +209,13 @@ const AcquisitionsPage: React.FC = () => {
                         <tr key={acquisition.id} className="border-b border-gray-100 hover:bg-gray-50">
                           <td className="py-3 px-4 font-medium">{acquisition.reference}</td>
                           <td className="py-3 px-4">{acquisition.objet}</td>
-                          <td className="py-3 px-4 font-semibold text-emerald-600">{acquisition.cout}</td>
+                          <td className="py-3 px-4 font-semibold text-primary">{acquisition.cout}</td>
                           <td className="py-3 px-4">
                             <Badge className="bg-blue-100 text-blue-800">{acquisition.moyenPaiement}</Badge>
                           </td>
                           <td className="py-3 px-4">{acquisition.dateAcquisition}</td>
                           <td className="py-3 px-4">
-                            <Button variant="ghost" size="sm" className="text-emerald-600 hover:text-emerald-700">
+                            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
                               <ArrowRightIcon className="h-4 w-4" />
                             </Button>
                           </td>
@@ -244,7 +244,7 @@ const AcquisitionsPage: React.FC = () => {
                   className="p-4 bg-white border border-gray-200 rounded-lg transition-shadow"
                 >
                   <div className="flex items-center gap-3">
-                    <UserPlusIcon className="h-6 w-6 text-emerald-600" />
+                    <UserPlusIcon className="h-6 w-6 text-primary" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Créer un utilisateur</h4>
                       <p className="text-sm text-gray-600">Ajouter un nouvel utilisateur</p>
@@ -257,7 +257,7 @@ const AcquisitionsPage: React.FC = () => {
                   className="p-4 bg-white border border-gray-200 rounded-lg transition-shadow"
                 >
                   <div className="flex items-center gap-3">
-                    <UsersIcon className="h-6 w-6 text-emerald-600" />
+                    <UsersIcon className="h-6 w-6 text-primary" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Liste des utilisateurs</h4>
                       <p className="text-sm text-gray-600">Consulter tous les utilisateurs</p>
@@ -270,7 +270,7 @@ const AcquisitionsPage: React.FC = () => {
                   className="p-4 bg-white border border-gray-200 rounded-lg transition-shadow"
                 >
                   <div className="flex items-center gap-3">
-                    <ShoppingCartIcon className="h-6 w-6 text-emerald-600" />
+                    <ShoppingCartIcon className="h-6 w-6 text-primary" />
                     <div>
                       <h4 className="font-semibold text-gray-900">Retour au dashboard</h4>
                       <p className="text-sm text-gray-600">Accueil SIGOMAP</p>

@@ -51,7 +51,7 @@ const CreateUserPage: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={handleGoBack}
-            className="border-border hover:bg-green-pastel"
+            className="border-border hover:bg-accent"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour
@@ -69,17 +69,17 @@ const CreateUserPage: React.FC = () => {
       {/* Contenu principal */}
       <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Bandeau de titre */}
-        <div className="bg-gradient-to-r from-emerald-600 via-emerald-600/80 to-emerald-600 border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden">
+        <div className="bg-gradient-to-r from-primary via-primary/80 to-primary border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-chart-2/5 opacity-50"></div>
           <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl md:rounded-3xl flex items-center justify-center flex-shrink-0">
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-primary to-orange-400 rounded-2xl md:rounded-3xl flex items-center justify-center flex-shrink-0">
               <User className="w-8 h-8 md:w-10 md:h-10 text-white" />
             </div>
             <div className="flex-1 min-w-0 space-y-2 md:space-y-3">
               <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-tight">
                 Créer un nouvel utilisateur
               </h2>
-              <p className="text-emerald-100 text-base md:text-lg leading-relaxed">
+              <p className="text-primary/20 text-base md:text-lg leading-relaxed">
                 Ajoutez un nouvel utilisateur au système SIGOMAP
               </p>
             </div>
@@ -99,8 +99,8 @@ const CreateUserPage: React.FC = () => {
         <Card className="border border-gray-300 bg-white/80 backdrop-blur-sm">
           <CardHeader className="bg-gradient-to-r from-light-gray-1 to-light-gray-2 border-b border-gray-200">
             <CardTitle className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-600/10 rounded-lg flex items-center justify-center">
-                <User className="w-5 h-5 text-emerald-600" />
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
               </div>
               Informations de l'utilisateur
             </CardTitle>
@@ -122,7 +122,7 @@ const CreateUserPage: React.FC = () => {
                       value={formData.firstName}
                       onChange={handleChange}
                       required
-                      className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="pl-10 border-border focus:border-primary focus:ring-primary/20"
                       placeholder="Entrez le prénom"
                     />
                   </div>
@@ -141,7 +141,7 @@ const CreateUserPage: React.FC = () => {
                       value={formData.lastName}
                       onChange={handleChange}
                       required
-                      className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="pl-10 border-border focus:border-primary focus:ring-primary/20"
                       placeholder="Entrez le nom"
                     />
                   </div>
@@ -162,7 +162,7 @@ const CreateUserPage: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20"
+                    className="pl-10 border-border focus:border-primary focus:ring-primary/20"
                     placeholder="exemple@entreprise.ci"
                   />
                 </div>
@@ -176,7 +176,7 @@ const CreateUserPage: React.FC = () => {
                 <div className="relative">
                   <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Select value={formData.role} onValueChange={handleRoleChange}>
-                    <SelectTrigger className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20">
+                    <SelectTrigger className="pl-10 border-border focus:border-primary focus:ring-primary/20">
                       <SelectValue placeholder="Sélectionner un rôle" />
                     </SelectTrigger>
                     <SelectContent className="bg-white border-border">
@@ -204,7 +204,7 @@ const CreateUserPage: React.FC = () => {
                       value={formData.password}
                       onChange={handleChange}
                       required
-                      className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="pl-10 border-border focus:border-primary focus:ring-primary/20"
                       placeholder="••••••••"
                     />
                   </div>
@@ -223,7 +223,7 @@ const CreateUserPage: React.FC = () => {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       required
-                      className="pl-10 border-border focus:border-emerald-500 focus:ring-emerald-500/20"
+                      className="pl-10 border-border focus:border-primary focus:ring-primary/20"
                       placeholder="••••••••"
                     />
                   </div>
@@ -236,14 +236,14 @@ const CreateUserPage: React.FC = () => {
                   type="button" 
                   variant="outline" 
                   onClick={handleGoBack}
-                  className="border-border hover:bg-green-pastel"
+                  className="border-border hover:bg-accent"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Annuler
                 </Button>
                 <Button 
                   type="submit"
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   <Save className="w-4 h-4 mr-2" />
                   Enregistrer l'utilisateur

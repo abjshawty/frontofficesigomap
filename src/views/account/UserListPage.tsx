@@ -97,7 +97,7 @@ const UserListPage: React.FC = () => {
 
   const getStatusBadge = (statut: string) => {
     return statut === 'actif' 
-      ? <Badge className="bg-emerald-100 text-emerald-800">Actif</Badge>
+      ? <Badge className="bg-primary/10 text-primary">Actif</Badge>
       : <Badge className="bg-gray-100 text-gray-800">Inactif</Badge>;
   };
 
@@ -108,7 +108,7 @@ const UserListPage: React.FC = () => {
         <div className="flex items-center gap-4">
           <Link 
             to="/dashboard"
-            className="flex items-center gap-3 hover:bg-green-pastel/50 p-2 rounded-lg transition-colors duration-300"
+            className="flex items-center gap-3 hover:bg-accent/50 p-2 rounded-lg transition-colors duration-300"
           >
             <ArrowLeft className="w-5 h-5 text-primary" />
             <span className="text-sm font-medium text-foreground">Retour au dashboard</span>
@@ -129,7 +129,7 @@ const UserListPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Bandeau de titre */}
         <motion.div 
-          className="bg-gradient-to-r from-green-pastel via-green-pastel/80 to-green-pastel border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden"
+          className="bg-gradient-to-r from-accent via-accent/80 to-accent border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -221,11 +221,11 @@ const UserListPage: React.FC = () => {
                     <option value={100}>100</option>
                     <option value={200}>200</option>
                   </select>
-                  <Button variant="outline" className="border-border/50 hover:bg-green-pastel/50">
+                  <Button variant="outline" className="border-border/50 hover:bg-accent/50">
                     <Filter className="w-4 h-4 mr-2" />
                     Choix des colonnes
                   </Button>
-                  <Button variant="outline" className="border-border/50 hover:bg-green-pastel/50">
+                  <Button variant="outline" className="border-border/50 hover:bg-accent/50">
                     Export Excel
                   </Button>
                 </div>
@@ -250,7 +250,7 @@ const UserListPage: React.FC = () => {
                     {filteredUsers.map((user, index) => (
                       <motion.tr 
                         key={user.id} 
-                        className="border-b border-border/20 hover:bg-green-pastel/10 transition-colors duration-200"
+                        className="border-b border-border/20 hover:bg-accent/10 transition-colors duration-200"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -288,8 +288,8 @@ const UserListPage: React.FC = () => {
                   Affichage de {filteredUsers.length} utilisateur(s)
                 </p>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="border-border/50 hover:bg-green-pastel/50">Précédent</Button>
-                  <Button variant="outline" size="sm" className="border-border/50 hover:bg-green-pastel/50">Suivant</Button>
+                  <Button variant="outline" size="sm" className="border-border/50 hover:bg-accent/50">Précédent</Button>
+                  <Button variant="outline" size="sm" className="border-border/50 hover:bg-accent/50">Suivant</Button>
                 </div>
               </div>
             </CardContent>

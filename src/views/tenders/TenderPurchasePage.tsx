@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const TenderPurchasePage = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <Link to="/tenders" className="text-emerald-600 hover:underline text-sm">&larr; Retour à la liste</Link>
+      <Link to="/tenders" className="text-primary hover:underline text-sm">&larr; Retour à la liste</Link>
 
       <h1 className="text-2xl font-bold text-gray-800 mt-4 mb-6">Acquisition du dossier d'appel d'offres</h1>
 
@@ -19,7 +19,7 @@ const TenderPurchasePage = () => {
               <li>• Support 24/7</li>
             </ul>
           </div>
-          <button className="w-full bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold mt-4">
+          <button className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold mt-4">
             Payer par carte (50 000 FCFA)
           </button>
         </div>
@@ -34,7 +34,7 @@ const TenderPurchasePage = () => {
               <li>• Reçu par SMS</li>
             </ul>
           </div>
-          <button className="w-full bg-emerald-600 text-white py-3 px-4 rounded-lg font-semibold mt-4">
+          <button className="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold mt-4">
             Payer par mobile money (50 000 FCFA)
           </button>
         </div>

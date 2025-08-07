@@ -1,6 +1,21 @@
 // src/navigation.data.ts
 import { CompanyIcon, SettingsIcon, TendersIcon, UsersIcon, DashboardIcon, AdminMainIcon, FileTextIcon, ShoppingCartIcon, UserPlusIcon, BuildingIcon } from "./components/icons.tsx";
-import { NavModule } from "./components/SecondarySidebar";
+// import { NavModule } from "./components/SecondarySidebar";
+
+// --- Types pour la navigation ---
+export interface SubNavItem {
+    id: string;
+    text: string;
+    icon: React.ElementType;
+    path?: string;
+    description?: string;
+}
+
+export interface NavModule {
+    id: string;
+    title: string;
+    subItems: SubNavItem[];
+}
 
 // --- Navigation Principale (Sidebar gauche) ---
 export const primaryNavigation = [

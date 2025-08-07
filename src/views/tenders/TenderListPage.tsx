@@ -8,7 +8,8 @@ import {
   ArrowLeft, 
   Clock, 
   CreditCard, 
-  Smartphone 
+  Smartphone,
+  ArrowLeft as ArrowLeftIcon
 } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/card";
@@ -300,6 +301,28 @@ const TenderListPage = () => {
 
   return (
     <div className="space-y-6">
+      {/* Header avec navigation et export */}
+      <header className="h-16 bg-light-gray-1 border-b border-border flex items-center justify-between px-6 header">
+        <div className="flex items-center gap-4">
+          <a 
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300" 
+            href="/dashboard"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">Retour au tableau de bord</span>
+          </a>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button 
+            variant="outline"
+            className="border-border hover:bg-green-pastel"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Exporter
+          </Button>
+        </div>
+      </header>
+
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold text-foreground">
           Avis d'Appels d'Offres (AAO)

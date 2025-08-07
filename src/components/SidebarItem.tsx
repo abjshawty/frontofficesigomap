@@ -18,8 +18,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, text, active = fa
         transition-colors duration-200
         ${
           active
-            ? 'bg-emerald-700 text-white' // Style actif
-            : 'text-gray-600 hover:bg-emerald-50' // Style inactif + hover
+            ? 'bg-primary text-white' // Style actif
+            : 'text-gray-600 hover:bg-primary/10' // Style inactif + hover
         }
       `}
     >

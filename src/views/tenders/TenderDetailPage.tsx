@@ -16,7 +16,7 @@ const TenderDetailPage = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <Link to="/tenders" className="text-emerald-600 hover:underline text-sm">&larr; Retour à la liste</Link>
+      <Link to="/tenders" className="text-primary hover:underline text-sm">&larr; Retour à la liste</Link>
 
       <h1 className="text-2xl font-bold text-gray-800 mt-4 mb-6">Détail de l'appel d'offres</h1>
 
@@ -41,11 +41,11 @@ const TenderDetailPage = () => {
       </InfoCard>
 
       {/* Purchase banner (simplifié) */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 mt-8 flex items-center justify-between">
+      <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 mt-8 flex items-center justify-between">
         <p className="text-sm text-gray-800">Pour consulter le dossier d'appel d'offres complet, veuillez l'acquérir.</p>
         <Link
           to="purchase"
-          className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold"
+          className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold"
         >
           Acquérir le dossier ({data.budget})
         </Link>

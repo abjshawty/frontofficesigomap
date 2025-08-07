@@ -11,7 +11,7 @@ import CreateUserPage from './views/admin/CreateUserPage';
 import AdminSettingsPage from './views/admin/AdminSettingsPage';
 import UserDetailPage from './views/admin/UserDetailPage';
 import CompanyPage from './views/company/CompanyPage';
-import MainLayout from './components/layout/MainLayout';
+import ModernLayout from './components/layout/ModernLayout';
 
 // Import des nouvelles pages SIGOMAP
 import CreateUserAccountPage from './views/account/CreateUserPage';
@@ -37,23 +37,24 @@ import NotificationsPage from './views/notifications/NotificationsPage';
 export type AppSection = 'DASHBOARD' | 'ACCOUNT' | 'OPERATIONS' | 'TENDERS' | 'MY_OFFERS' | 'MY_MARKETS' | 'ADMIN' | 'COMPANY';
 
 function App() {
-  const isAuthenticated = true; // Prototype : accès direct sans authentification
+  const isAuthenticated = true;
 
   return (
     <Routes>
-      {/* Routes sans layout (pour login, etc.) */}
+      {/* Routes publiques sans layout */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/adhesion" element={<AdhesionPage />} />
       <Route path="/publications" element={<PublicationsPage />} />
-      {/* Route directe vers le dashboard pour le prototype */}
+      {/* Route directe vers le dashboard, qui fonctionnera aussi dans le layout */}
       <Route path="/dashboard" element={<DashboardPage />} />
 
-      {/* Routes avec le MainLayout */}
+      {/* --- Layout principal pour toutes les pages de l'espace connecté --- */}
       <Route 
         path="/" 
-        element={isAuthenticated ? <MainLayout /> : <Navigate to="/login" />}
+        element={isAuthenticated ? <ModernLayout /> : <Navigate to="/login" />}
       >
         <Route index element={<Navigate to="/dashboard" />} />
+        
         <Route path="dashboard" element={<DashboardPage />} />
         
         {/* Routes Gestion du Compte */}
@@ -118,4 +119,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
