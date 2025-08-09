@@ -2,11 +2,11 @@ import React from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import {
   Settings,
-  User,
   ChevronDown,
   Bell,
   LifeBuoy,
   LogOut,
+  Globe,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
@@ -23,11 +23,15 @@ import Breadcrumbs, { BreadcrumbItem } from './Breadcrumbs';
 interface UserProfile {
     name: string;
     company: string;
+    email: string;
+    role: string;
 }
 
 const userProfile: UserProfile = {
     name: 'Sonec Devteam',
     company: 'ETS FIRDAOUS',
+    email: 'devteam@sonec.ci',
+    role: 'Administrateur du compte Espace Entreprise',
 };
 
 // --- HEADER COMPONENT (pour le layout interne) ---
@@ -38,6 +42,10 @@ const InternalHeader: React.FC<{ user: UserProfile, onNavigate: (path: string) =
           <div className="flex items-center justify-between h-20">
              <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('/dashboard')}>
                 <img src="/logo-sigomap.png" alt="Logo SIGOMAP" className="h-12 w-auto" />
+                <div className="hidden sm:block">
+                    <h1 className="text-xl font-bold text-slate-800 tracking-tight">SIGOMAP.GOUV.CI</h1>
+                    <p className="text-xs text-slate-500 font-medium">Plateforme des marchés publics</p>
+                </div>
             </div>
             {/* La navigation principale pourrait être ici via des menus */}
             <div className="flex items-center gap-4">
@@ -57,8 +65,13 @@ const InternalHeader: React.FC<{ user: UserProfile, onNavigate: (path: string) =
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-72">
                   <DropdownMenuLabel>Mon Compte</DropdownMenuLabel>
+                  <div className="px-2 py-1 text-xs text-slate-500">
+                      <p>{user.email}</p>
+                      <p className="font-medium">{user.role}</p>
+                  </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onNavigate('/admin/settings')}><Settings className="w-4 h-4 mr-2" /><span>Paramètres</span></DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onNavigate('/company')}><Settings className="w-4 h-4 mr-2" /><span>Compte entreprise</span></DropdownMenuItem>
+                  <DropdownMenuItem><Globe className="w-4 h-4 mr-2" /><span>Langue : Français</span></DropdownMenuItem>
                   <DropdownMenuItem><LifeBuoy className="w-4 h-4 mr-2" /><span>Support</span></DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>

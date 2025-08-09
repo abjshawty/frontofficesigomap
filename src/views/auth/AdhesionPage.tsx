@@ -56,7 +56,7 @@ const AdhesionPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-               <ImagePlaceholder />
+               <ImagePlaceholder src="/View_of_the_Plateau,_Abidjan.jpg" alt="Vue du Plateau, Abidjan" />
             </motion.div>
 
             {/* Colonne de droite: Formulaire et informations */}

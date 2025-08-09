@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ModernLayout from './components/layout/ModernLayout';
 
@@ -16,6 +16,9 @@ const DashboardPage = lazy(() => import('./views/dashboard/DashboardPage'));
 const TenderListPage = lazy(() => import('./views/tenders/TenderListPage'));
 const TenderDetailPage = lazy(() => import('./views/tenders/TenderDetailPage'));
 const TenderPurchasePage = lazy(() => import('./views/tenders/TenderPurchasePage'));
+const TenderPaymentOptionsPage = lazy(() => import('./views/tenders/TenderPaymentOptionsPage'));
+const SoumissionDetailPage = lazy(() => import('./views/soumissions/SoumissionDetailPage'));
+const OperationDetailsPage = lazy(() => import('./views/operations/OperationDetailsPage'));
 const UserListPage = lazy(() => import('./views/admin/UserListPage'));
 const CreateUserPage = lazy(() => import('./views/admin/CreateUserPage'));
 const AdminSettingsPage = lazy(() => import('./views/admin/AdminSettingsPage'));
@@ -68,13 +71,16 @@ function App() {
           <Route path="account/acquisitions" element={<AcquisitionsPage />} />
           
           {/* Routes Opérations de Marché */}
+          <Route path="operations" element={<Navigate to="/operations/passation-plans" />} />
           <Route path="operations/passation-plans" element={<PassationPlansPage />} />
+          <Route path="operations/passation-plans/:operationRef" element={<OperationDetailsPage />} />
           <Route path="operations/general-plans" element={<PassationPlansPage />} />
           
           {/* Routes Avis d'Appel d'Offres */}
           <Route path="tenders" element={<TenderListPage />} />
           <Route path="tenders/:tenderId" element={<TenderDetailPage />} />
-          <Route path="tenders/:tenderId/purchase" element={<TenderPurchasePage />} />
+          <Route path="tenders/:tenderId/purchase" element={<TenderPaymentOptionsPage />} />
+          <Route path="tenders/:tenderId/purchase/confirm" element={<TenderPurchasePage />} />
           
           {/* Routes Mes Offres */}
           <Route path="my-offers/invitations" element={<InvitationsPage />} />
@@ -105,6 +111,7 @@ function App() {
           {/* Routes pour les modules du header - Soumissions */}
           <Route path="soumissions" element={<SoumissionsPage />} />
           <Route path="soumissions/liste" element={<SoumissionsPage />} />
+          <Route path="soumissions/details/:id" element={<SoumissionDetailPage />} />
           <Route path="soumissions/nouvelle" element={<SoumissionsPage />} />
           <Route path="soumissions/suivi" element={<SoumissionsPage />} />
 
