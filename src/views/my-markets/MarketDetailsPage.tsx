@@ -1,5 +1,5 @@
 // src/views/my-markets/MarketDetailsPage.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
@@ -16,11 +16,10 @@ import {
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { Input } from '../../components/ui/input';
-import { Label } from '../../components/ui/label';
+ 
 
 const MarketDetailsPage: React.FC = () => {
-  const [selectedMarket, setSelectedMarket] = useState<string | null>(null);
+  
 
   // Données simulées pour les détails des marchés
   const marketDetails = [
@@ -74,6 +73,12 @@ const MarketDetailsPage: React.FC = () => {
     if (progress >= 50) return 'bg-blue-500';
     if (progress >= 20) return 'bg-orange-500';
     return 'bg-gray-500';
+  };
+
+  const getWidthClassFromProgress = (progress: number) => {
+    const clamped = Math.max(0, Math.min(100, progress));
+    const roundedToFive = Math.round(clamped / 5) * 5;
+    return `w-[${roundedToFive}%]`;
   };
 
   return (
@@ -247,9 +252,8 @@ const MarketDetailsPage: React.FC = () => {
                       <span className="text-sm font-bold text-gray-800">{market.progress}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full transition-all duration-300 ${getProgressColor(market.progress)}`}
-                        style={{ width: `${market.progress}%` }}
+                      <div
+                        className={`h-2 rounded-full transition-all duration-300 ${getProgressColor(market.progress)} ${getWidthClassFromProgress(market.progress)}`}
                       ></div>
                     </div>
                   </div>

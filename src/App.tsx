@@ -17,6 +17,8 @@ const TenderListPage = lazy(() => import('./views/tenders/TenderListPage'));
 const TenderDetailPage = lazy(() => import('./views/tenders/TenderDetailPage'));
 const TenderPurchasePage = lazy(() => import('./views/tenders/TenderPurchasePage'));
 const TenderPaymentOptionsPage = lazy(() => import('./views/tenders/TenderPaymentOptionsPage'));
+const TenderPaymentSuccessPage = lazy(() => import('./views/tenders/TenderPaymentSuccessPage'));
+const TenderPaymentFailurePage = lazy(() => import('./views/tenders/TenderPaymentFailurePage'));
 const SoumissionDetailPage = lazy(() => import('./views/soumissions/SoumissionDetailPage'));
 const OperationDetailsPage = lazy(() => import('./views/operations/OperationDetailsPage'));
 const UserListPage = lazy(() => import('./views/admin/UserListPage'));
@@ -81,8 +83,11 @@ function App() {
           <Route path="tenders/:tenderId" element={<TenderDetailPage />} />
           <Route path="tenders/:tenderId/purchase" element={<TenderPaymentOptionsPage />} />
           <Route path="tenders/:tenderId/purchase/confirm" element={<TenderPurchasePage />} />
+          <Route path="tenders/:tenderId/purchase/success" element={<TenderPaymentSuccessPage />} />
+          <Route path="tenders/:tenderId/purchase/failure" element={<TenderPaymentFailurePage />} />
           
           {/* Routes Mes Offres */}
+          <Route path="my-offers" element={<Navigate to="/my-offers/invitations" />} />
           <Route path="my-offers/invitations" element={<InvitationsPage />} />
           <Route path="my-offers/procedures" element={<InvitationsPage />} />
           

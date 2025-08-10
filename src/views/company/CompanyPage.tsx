@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Info, Download, CheckSquare, ChevronRight, Eye } from 'lucide-react';
+import { ArrowLeft, Info, Download, CheckSquare, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
@@ -70,7 +70,7 @@ const CompanyPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="px-0">
       <div className="flex items-center gap-4 mb-8">
         <Button variant="outline" onClick={handleGoBack} className="border-border hover:bg-accent">
           <ArrowLeft className="w-4 h-4 mr-2" />

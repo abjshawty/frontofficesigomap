@@ -10,7 +10,7 @@ interface PageTemplateWithFiltersProps {
 
 const PageTemplateWithFilters: React.FC<PageTemplateWithFiltersProps> = ({ title, children, filters }) => {
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-screen-2xl mx-auto py-8 px-0">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">{title}</h1>
 
       {/* Zone filtres collapsible */}

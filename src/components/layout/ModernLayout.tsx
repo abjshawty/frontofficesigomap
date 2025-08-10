@@ -7,6 +7,7 @@ import {
   LifeBuoy,
   LogOut,
   Globe,
+  Building2,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
@@ -70,7 +71,8 @@ const InternalHeader: React.FC<{ user: UserProfile, onNavigate: (path: string) =
                       <p className="font-medium">{user.role}</p>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onNavigate('/company')}><Settings className="w-4 h-4 mr-2" /><span>Compte entreprise</span></DropdownMenuItem>
+                   <DropdownMenuItem onClick={() => onNavigate('/company')}><Building2 className="w-4 h-4 mr-2" /><span>Compte entreprise</span></DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onNavigate('/admin/settings')}><Settings className="w-4 h-4 mr-2" /><span>Paramètres</span></DropdownMenuItem>
                   <DropdownMenuItem><Globe className="w-4 h-4 mr-2" /><span>Langue : Français</span></DropdownMenuItem>
                   <DropdownMenuItem><LifeBuoy className="w-4 h-4 mr-2" /><span>Support</span></DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -105,7 +107,7 @@ const ModernLayout: React.FC = () => {
     return (
         <div className="min-h-screen bg-slate-50">
             <InternalHeader user={userProfile} onNavigate={navigate} />
-            <main className="container mx-auto px-4 py-8">
+            <main className="max-w-screen-2xl mx-auto px-0 py-8">
                 <Breadcrumbs items={breadcrumbItems} />
                 <Outlet />
             </main>

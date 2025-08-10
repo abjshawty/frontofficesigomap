@@ -8,7 +8,8 @@ import {
   ArrowLeft,
   RotateCcw,
   FileSpreadsheet,
-  Grid3X3
+  Grid3X3,
+  Info
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';

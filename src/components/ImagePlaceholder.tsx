@@ -6,8 +6,8 @@ type Props = {
   className?: string;
 };
 
-const DEFAULT_IMG = '/image-adhesion.jpg';
-const FALLBACK_IMG = '/image-adhesion-placeholder.jpg';
+const DEFAULT_IMG = '/View_of_the_Plateau,_Abidjan.jpg';
+const FALLBACK_IMG = '/View_of_the_Plateau,_Abidjan.jpg';
 
 const ImagePlaceholder: React.FC<Props> = ({ src, alt = "Image d'illustration", className = '' }) => {
   const [currentSrc, setCurrentSrc] = useState<string>(src || DEFAULT_IMG);

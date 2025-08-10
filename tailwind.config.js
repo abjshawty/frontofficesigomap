@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+const safelistedWidths = Array.from({ length: 21 }, (_, index) => `w-[${index * 5}%]`);
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  safelist: [
+    ...safelistedWidths,
   ],
   darkMode: "class",
   theme: {

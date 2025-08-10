@@ -1,12 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Download, RotateCcw, ChevronRight, ListFilter } from 'lucide-react';
+import { Search, Download, RotateCcw, ChevronRight, ListFilter, ChevronDown } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from '../../components/ui/select';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import PageTemplateWithFilters from '../../components/layout/PageTemplateWithFilters';
 // import { Badge } from '../../components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,16 +42,16 @@ const operations: OperationListItem[] = [
 
 const PassationPlansPage: React.FC = () => {
     const navigate = useNavigate();
-    const [ministere, setMinistere] = React.useState<string>('');
-    const [autorite, setAutorite] = React.useState<string>('');
+    const [ministeres, setMinisteres] = React.useState<string[]>([]);
+    const [autorites, setAutorites] = React.useState<string[]>([]);
     const [mode, setMode] = React.useState<string>('');
     const [nature, setNature] = React.useState<string>('');
     const [search, setSearch] = React.useState<string>('');
 
     const filtered = React.useMemo(() => {
         return operations.filter(op => {
-            const matchMinistere = ministere ? op.autorite.toLowerCase().includes(ministere.toLowerCase()) : true;
-            const matchAutorite = autorite ? op.autorite.toLowerCase().includes(autorite.toLowerCase()) : true;
+            const matchMinistere = ministeres.length > 0 ? ministeres.some(m => op.autorite.toLowerCase().includes(m.toLowerCase())) : true;
+            const matchAutorite = autorites.length > 0 ? autorites.some(a => op.autorite.toLowerCase().includes(a.toLowerCase())) : true;
             const matchMode = mode ? op.mode.toLowerCase().includes(mode.toLowerCase()) : true;
             const matchNature = nature ? op.nature.toLowerCase().includes(nature.toLowerCase()) : true;
             const query = search.trim().toLowerCase();
@@ -58,158 +60,178 @@ const PassationPlansPage: React.FC = () => {
                 : true;
             return matchMinistere && matchAutorite && matchMode && matchNature && matchSearch;
         });
-    }, [ministere, autorite, mode, nature, search]);
+    }, [ministeres, autorites, mode, nature, search]);
 
     const resetFilters = () => {
-        setMinistere('');
-        setAutorite('');
+        setMinisteres([]);
+        setAutorites([]);
         setMode('');
         setNature('');
         setSearch('');
     };
 
+    const FiltersPanel = (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+                <Label htmlFor="ministere">Ministère / Institution</Label>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="mt-1 w-full justify-between">
+                      <span>{ministeres.length > 0 ? `${ministeres.length} sélection(s)` : 'Sélectionner'}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64">
+                    <DropdownMenuLabel>Choisir un ou plusieurs</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {['AEPE','PRRI','MEF','MS'].map((opt) => (
+                      <DropdownMenuCheckboxItem
+                        key={opt}
+                        checked={ministeres.includes(opt)}
+                        onCheckedChange={(c) => {
+                          setMinisteres((prev) => c ? [...prev, opt] : prev.filter(v => v !== opt));
+                        }}
+                      >
+                        {opt}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+            <div>
+                <Label htmlFor="autorite">Autorité contractante</Label>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="mt-1 w-full justify-between">
+                      <span>{autorites.length > 0 ? `${autorites.length} sélection(s)` : 'Sélectionner'}</span>
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-72">
+                    <DropdownMenuLabel>Choisir un ou plusieurs</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {['AEPE','PROJET TEST WONNAN','projet DRAD 2025','Projet de Renforcement des Routes'].map((opt) => (
+                      <DropdownMenuCheckboxItem
+                        key={opt}
+                        checked={autorites.includes(opt)}
+                        onCheckedChange={(c) => {
+                          setAutorites((prev) => c ? [...prev, opt] : prev.filter(v => v !== opt));
+                        }}
+                      >
+                        {opt}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+            <div>
+                <Label htmlFor="mode">Mode de passation</Label>
+                <Select value={mode || 'ALL'} onValueChange={(v) => setMode(v === 'ALL' ? '' : v)}>
+                    <SelectTrigger id="mode" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="ALL">Tous</SelectItem>
+                        <SelectItem value="Appel d'offres ouvert">Appel d'offres ouvert</SelectItem>
+                        <SelectItem value="Appel d'offres restreint">Appel d'offres restreint</SelectItem>
+                        <SelectItem value="Procédure simplifiée">Procédure simplifiée</SelectItem>
+                        <SelectItem value="Gré à gré">Gré à gré</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div>
+                <Label htmlFor="nature">Nature de marché</Label>
+                <Select value={nature || 'ALL'} onValueChange={(v) => setNature(v === 'ALL' ? '' : v)}>
+                    <SelectTrigger id="nature" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="ALL">Toutes</SelectItem>
+                        <SelectItem value="Fournitures">Fournitures</SelectItem>
+                        <SelectItem value="Travaux">Travaux</SelectItem>
+                        <SelectItem value="Prestation">Prestation</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex items-end gap-2 col-span-full justify-end">
+                <Button variant="ghost" onClick={resetFilters}><RotateCcw className="w-4 h-4 mr-2" />Réinitialiser</Button>
+                <Button className="bg-primary hover:bg-primary/90" onClick={() => { /* noop: filtrage live */ }}><Search className="w-4 h-4 mr-2" />Rechercher</Button>
+            </div>
+        </div>
+    );
+
     return (
     <>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
-            <Card className="rounded-2xl border-slate-200 shadow-sm mb-8">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                        <Filter className="w-5 h-5 text-primary" />
-                        <span>Filtres de recherche</span>
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div>
-                        <Label htmlFor="ministere">Ministère / Institution</Label>
-                        <Select value={ministere} onValueChange={setMinistere}>
-                            <SelectTrigger id="ministere" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="">Tous</SelectItem>
-                                <SelectItem value="AEPE">AEPE</SelectItem>
-                                <SelectItem value="PRRI">PRRI</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="autorite">Autorité contractante</Label>
-                        <Select value={autorite} onValueChange={setAutorite}>
-                            <SelectTrigger id="autorite" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="">Toutes</SelectItem>
-                                <SelectItem value="AEPE">AEPE</SelectItem>
-                                <SelectItem value="PROJET TEST WONNAN">PROJET TEST WONNAN</SelectItem>
-                                <SelectItem value="projet DRAD 2025">projet DRAD 2025</SelectItem>
-                                <SelectItem value="Projet de Renforcement des Routes">Projet de Renforcement des Routes</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="mode">Mode de passation</Label>
-                        <Select value={mode} onValueChange={setMode}>
-                            <SelectTrigger id="mode" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="">Tous</SelectItem>
-                                <SelectItem value="Appel d'offres ouvert">Appel d'offres ouvert</SelectItem>
-                                <SelectItem value="Appel d'offres restreint">Appel d'offres restreint</SelectItem>
-                                <SelectItem value="Procédure simplifiée">Procédure simplifiée</SelectItem>
-                                <SelectItem value="Gré à gré">Gré à gré</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="nature">Nature de marché</Label>
-                        <Select value={nature} onValueChange={setNature}>
-                            <SelectTrigger id="nature" className="mt-1"><SelectValue placeholder="Sélectionner" /></SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="">Toutes</SelectItem>
-                                <SelectItem value="Fournitures">Fournitures</SelectItem>
-                                <SelectItem value="Travaux">Travaux</SelectItem>
-                                <SelectItem value="Prestation">Prestation</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="flex items-end gap-2 col-span-full justify-end">
-                        <Button variant="ghost" onClick={resetFilters}><RotateCcw className="w-4 h-4 mr-2" />Réinitialiser</Button>
-                        <Button className="bg-primary hover:bg-primary/90" onClick={() => { /* noop: filtrage live */ }}><Search className="w-4 h-4 mr-2" />Rechercher</Button>
-                    </div>
-                </CardContent>
-            </Card>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-            <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg">Liste des opérations</CardTitle>
-                    <div className="flex items-center gap-2">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                            <Input
-                              placeholder="Rechercher dans la liste..."
-                              className="pl-10 w-64"
-                              value={search}
-                              onChange={(e) => setSearch(e.target.value)}
-                            />
+        <PageTemplateWithFilters title="Plans de passation de marchés" filters={FiltersPanel}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
+                <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <CardTitle className="text-lg">Liste des opérations</CardTitle>
+                        <div className="flex items-center gap-2">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                                <Input
+                                  placeholder="Rechercher dans la liste..."
+                                  className="pl-10 w-64"
+                                  value={search}
+                                  onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <Button variant="outline"><ListFilter className="w-4 h-4 mr-2" />Choix des colonnes</Button>
+                            <Button variant="outline"><Download className="w-4 h-4 mr-2" />Export Excel</Button>
                         </div>
-                        <Button variant="outline"><ListFilter className="w-4 h-4 mr-2" />Choix des colonnes</Button>
-                        <Button variant="outline"><Download className="w-4 h-4 mr-2" />Export Excel</Button>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <div className="overflow-x-auto">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Référence</TableHead>
-                                    <TableHead>Objet de l'opération</TableHead>
-                                    <TableHead>Autorité Contractante</TableHead>
-                                    <TableHead>Mode de Passation</TableHead>
-                                    <TableHead>Nature</TableHead>
-                                    <TableHead>Détail</TableHead>
-                                    <TableHead></TableHead>
-                                </TableRow>
-                            </TableHeader>
-                             <TableBody>
-                                 {filtered.map((op, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell className="font-mono text-xs">{op.ref}</TableCell>
-                                        <TableCell className="font-medium max-w-xs truncate">{op.objet}</TableCell>
-                                        <TableCell>{op.autorite}</TableCell>
-                                        <TableCell className="text-slate-600">{op.mode}</TableCell>
-                                        <TableCell>{op.nature}</TableCell>
-                                        <TableCell className="text-slate-600">{op.detail}</TableCell>
-                                        <TableCell className="text-right">
-                                            <Button
-                                                aria-label="Voir le détail"
-                                                title="Voir le détail"
-                                                variant="ghost"
-                                                size="icon"
-                                                onClick={() => navigate(`/operations/passation-plans/${op.ref}`)}
-                                            >
-                                                <ChevronRight className="w-4 h-4" />
-                                            </Button>
-                                        </TableCell>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Référence</TableHead>
+                                        <TableHead>Objet de l'opération</TableHead>
+                                        <TableHead>Autorité Contractante</TableHead>
+                                        <TableHead>Mode de Passation</TableHead>
+                                        <TableHead>Nature</TableHead>
+                                        <TableHead>Détail</TableHead>
+                                        <TableHead></TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                 <TableBody>
+                                     {filtered.map((op, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className="font-mono text-xs">{op.ref}</TableCell>
+                                            <TableCell className="font-medium max-w-xs truncate">{op.objet}</TableCell>
+                                            <TableCell>{op.autorite}</TableCell>
+                                            <TableCell className="text-slate-600">{op.mode}</TableCell>
+                                            <TableCell>{op.nature}</TableCell>
+                                            <TableCell className="text-slate-600">{op.detail}</TableCell>
+                                            <TableCell className="text-right">
+                                                <Button
+                                                    aria-label="Voir le détail"
+                                                    title="Voir le détail"
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    onClick={() => navigate(`/operations/passation-plans/${op.ref}`)}
+                                                >
+                                                    <ChevronRight className="w-4 h-4" />
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </CardContent>
+                    <div className="p-4 border-t border-slate-200 flex items-center justify-between">
+                        <p className="text-sm text-slate-500">Affiche 1 à 8 sur 15878 éléments</p>
+                        <div className="flex items-center gap-1">
+                            <Button size="sm" variant="outline" disabled>Précédent</Button>
+                            <Button size="sm" variant="default">1</Button>
+                            <Button size="sm" variant="outline">2</Button>
+                            <Button size="sm" variant="outline">3</Button>
+                            <span className="text-sm px-2">...</span>
+                            <Button size="sm" variant="outline">1985</Button>
+                            <Button size="sm" variant="outline">Suivant</Button>
+                        </div>
                     </div>
-                </CardContent>
-                <div className="p-4 border-t border-slate-200 flex items-center justify-between">
-                    <p className="text-sm text-slate-500">Affiche 1 à 8 sur 15878 éléments</p>
-                    <div className="flex items-center gap-1">
-                        <Button size="sm" variant="outline" disabled>Précédent</Button>
-                        <Button size="sm" variant="default">1</Button>
-                        <Button size="sm" variant="outline">2</Button>
-                        <Button size="sm" variant="outline">3</Button>
-                        <span className="text-sm px-2">...</span>
-                        <Button size="sm" variant="outline">1985</Button>
-                        <Button size="sm" variant="outline">Suivant</Button>
-                    </div>
-                </div>
-            </Card>
-        </motion.div>
-
-        {/* Plus de modale: navigation vers la page de détail */}
+                </Card>
+            </motion.div>
+        </PageTemplateWithFilters>
     </>
     );
 };
