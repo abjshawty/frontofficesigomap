@@ -13,7 +13,7 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
   return (
-    <nav className="flex items-center text-sm text-slate-500 mb-8" aria-label="Breadcrumb">
+    <nav className="flex items-center text-sm text-slate-500 mb-8 px-0" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2">
         <li className="inline-flex items-center">
           <Link to="/dashboard" className="inline-flex items-center text-slate-500 hover:text-primary">

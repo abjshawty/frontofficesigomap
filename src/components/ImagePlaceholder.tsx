@@ -1,22 +1,24 @@
-import React from 'react';
-import { Image } from 'lucide-react';
+import React, { useState } from 'react';
 
-const ImagePlaceholder: React.FC = () => {
+type Props = {
+  src?: string; // Chemin depuis public/, ex: "/mon-image.jpg"
+  alt?: string;
+  className?: string;
+};
+
+const DEFAULT_IMG = '/View_of_the_Plateau,_Abidjan.jpg';
+const FALLBACK_IMG = '/View_of_the_Plateau,_Abidjan.jpg';
+
+const ImagePlaceholder: React.FC<Props> = ({ src, alt = "Image d'illustration", className = '' }) => {
+  const [currentSrc, setCurrentSrc] = useState<string>(src || DEFAULT_IMG);
+
   return (
-    <div className="relative h-full w-full bg-slate-100 rounded-2xl overflow-hidden hidden lg:block">
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
-        <Image className="w-16 h-16 mb-4" />
-        <p className="text-center font-medium">
-          Votre image d'adhésion ici.
-        </p>
-        <p className="text-xs text-slate-500 mt-1">
-          Placez votre image dans le dossier `public` et mettez à jour le chemin.
-        </p>
-      </div>
-      <img 
-        src="/image-adhesion-placeholder.jpg" 
-        alt="Processus d'adhésion SIGOMAP" 
-        className="object-cover w-full h-full opacity-20"
+    <div className={`relative h-full w-full bg-slate-100 rounded-2xl overflow-hidden hidden lg:block ${className}`}>
+      <img
+        src={currentSrc}
+        alt={alt}
+        onError={() => setCurrentSrc(FALLBACK_IMG)}
+        className="object-cover w-full h-full"
       />
     </div>
   );

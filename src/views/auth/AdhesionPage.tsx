@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Download, ArrowLeft, Check, Info } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
@@ -43,9 +44,35 @@ const AdhesionPage: React.FC = () => {
     const [selectedType, setSelectedType] = useState('ivoirien');
     const [ncc, setNcc] = useState('');
     const [dontKnowNcc, setDontKnowNcc] = useState(false);
+      const [email, setEmail] = useState('');
+      const [confirmEmail, setConfirmEmail] = useState('');
+      const [otpCode, setOtpCode] = useState('');
+      const [isOtpOpen, setIsOtpOpen] = useState(false);
+      const [showToast, setShowToast] = useState(false);
+
+      const isEmailMode = selectedType === 'etranger';
+      const isContinueDisabled = isEmailMode
+        ? email.trim() === '' || confirmEmail.trim() === '' || email.trim() !== confirmEmail.trim()
+        : !dontKnowNcc && ncc.trim() === '';
+
+      const handleConfirm = () => {
+        if (isEmailMode) {
+          setIsOtpOpen(true);
+          setShowToast(true);
+          // Masquer automatiquement le toast après 4 secondes
+          window.setTimeout(() => setShowToast(false), 4000);
+        } else {
+          // TODO: logiques futures pour les autres types
+        }
+      };
 
     return (
     <div className="min-h-screen bg-slate-50">
+      {showToast && (
+        <div className="fixed top-3 left-1/2 z-[60] -translate-x-1/2 rounded-md bg-emerald-600 text-white px-4 py-2 shadow-lg">
+          L'email a bien été envoyé
+        </div>
+      )}
       <Header onNavigate={navigate} />
 
       <main className="container mx-auto px-4 py-8 md:py-12">
@@ -56,7 +83,11 @@ const AdhesionPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-               <ImagePlaceholder />
+               <ImagePlaceholder
+                 src="/View_of_the_Plateau,_Abidjan.jpg"
+                 alt="Vue du Plateau, Abidjan"
+                 className="lg:h-[640px]"
+               />
             </motion.div>
 
             {/* Colonne de droite: Formulaire et informations */}
@@ -109,31 +140,63 @@ const AdhesionPage: React.FC = () => {
                     <CardTitle>2. Vérifiez vos informations</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div>
-                        <Label htmlFor="ncc">Numéro de Compte Contribuable (NCC)</Label>
-                        <Input
+                    {isEmailMode ? (
+                      <>
+                        <div>
+                          <Label htmlFor="email">Email</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Saisir votre email"
+                            className="mt-1"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="confirm-email">Email</Label>
+                          <Input
+                            id="confirm-email"
+                            type="email"
+                            value={confirmEmail}
+                            onChange={(e) => setConfirmEmail(e.target.value)}
+                            placeholder="Confirmer votre email"
+                            className="mt-1"
+                          />
+                        </div>
+                        {email && confirmEmail && email !== confirmEmail && (
+                          <p className="text-sm text-red-600">Les emails ne correspondent pas.</p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <Label htmlFor="ncc">Numéro de Compte Contribuable (NCC)</Label>
+                          <Input
                             id="ncc"
                             value={ncc}
                             onChange={(e) => setNcc(e.target.value)}
                             placeholder="Saisissez votre NCC"
                             disabled={dontKnowNcc}
                             className="mt-1"
-                        />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <input
+                          />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <input
                             type="checkbox"
                             id="dont-know-ncc"
                             checked={dontKnowNcc}
                             onChange={(e) => setDontKnowNcc(e.target.checked)}
                             className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/50"
                             aria-label="Je ne connais pas mon Numéro de Compte Contribuable"
-                        />
-                        <Label htmlFor="dont-know-ncc" className="text-sm font-normal">
+                          />
+                          <Label htmlFor="dont-know-ncc" className="text-sm font-normal">
                             Je ne connais pas mon NCC
-                        </Label>
-                    </div>
-                    <Button className="w-full bg-primary hover:bg-primary/90">
+                          </Label>
+                        </div>
+                      </>
+                    )}
+                    <Button className="w-full bg-primary hover:bg-primary/90" disabled={isContinueDisabled} onClick={handleConfirm}>
                         <Check className="w-4 h-4 mr-2" />
                         Confirmer et continuer
                     </Button>
@@ -179,6 +242,43 @@ const AdhesionPage: React.FC = () => {
             </motion.div>
         </div>
       </main>
+
+      {/* Dialog OTP */}
+      <Dialog open={isOtpOpen} onOpenChange={setIsOtpOpen}>
+        <DialogContent className="max-w-xl w-[95vw]">
+          <DialogHeader>
+            <DialogTitle>Confirmation de l'email par code</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-slate-600">
+            <p className="text-sm">
+              Le système vient de vous transmettre un code à usage unique à l'adresse mail que vous venez de renseigner.
+              Merci de saisir le code ci‑dessous afin de poursuivre votre action. Ce code a une durée de validité limitée.
+            </p>
+            <div>
+              <Label htmlFor="otpEmail">Email</Label>
+              <Input id="otpEmail" type="email" value={email} readOnly className="mt-1 bg-slate-100" />
+            </div>
+            <div>
+              <Label htmlFor="otpCode">Code à usage unique (*)</Label>
+              <Input
+                id="otpCode"
+                value={otpCode}
+                onChange={(e) => setOtpCode(e.target.value)}
+                placeholder="Saisir le code"
+                className="mt-1"
+              />
+            </div>
+            <div className="flex items-center justify-between gap-3 pt-2">
+              <Button variant="outline" onClick={() => setShowToast(true)}>
+                Générer un nouveau code
+              </Button>
+              <Button disabled={otpCode.trim() === ''} className="bg-primary hover:bg-primary/90">
+                Confirmer
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

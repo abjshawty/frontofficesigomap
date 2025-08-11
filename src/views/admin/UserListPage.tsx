@@ -153,14 +153,8 @@ const UserListPage = () => {
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {currentView === 'list' ? (
           <>
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800">Gestion des utilisateurs</h1>
-        <Link
-          to="/admin/users/create"
-          className="inline-flex items-center px-4 py-2 bg-primary text-white border border-transparent rounded-md text-sm font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-        >
-          Ajouter un utilisateur
-        </Link>
       </div>
 
             <Card>

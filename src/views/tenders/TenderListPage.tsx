@@ -1,5 +1,5 @@
 // src/views/tenders/TenderListPage.tsx
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { 
   Filter, 
   Download, 
@@ -11,6 +11,7 @@ import {
   Smartphone,
   ArrowLeft as ArrowLeftIcon
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
@@ -83,10 +84,35 @@ const aaoData: AAOItem[] = [
 ];
 
 const TenderListPage = () => {
-  const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
+  const [showFilters, setShowFilters] = useState(true);
+  const [refQuery, setRefQuery] = useState('');
+  const [etape, setEtape] = useState('all');
+  const [nature, setNature] = useState('all');
+  const [ministere, setMinistere] = useState('all');
+  const [search, setSearch] = useState('');
   const [currentView, setCurrentView] = useState<'liste-aao' | 'detail-aao'>('liste-aao');
   const [selectedAAO, setSelectedAAO] = useState<AAOItem | null>(null);
 
+
+  const resetFilters = () => {
+    setRefQuery('');
+    setEtape('all');
+    setNature('all');
+    setMinistere('all');
+  };
+
+  const filtered = useMemo(() => {
+    return aaoData.filter((item) => {
+      const matchRef = refQuery ? item.reference.toLowerCase().includes(refQuery.toLowerCase()) : true;
+      const matchEtape = etape === 'all' ? true : (etape === 'ouvert' ? true : true); // placeholder conservé
+      const matchNature = nature === 'all' ? true : item.nature.toLowerCase().includes(nature.toLowerCase());
+      const matchMin = ministere === 'all' ? true : item.autorite.toLowerCase().includes(ministere.toLowerCase());
+      const q = search.trim().toLowerCase();
+      const matchSearch = q ? [item.reference, item.objet, item.autorite, item.nature].some(v => v.toLowerCase().includes(q)) : true;
+      return matchRef && matchEtape && matchNature && matchMin && matchSearch;
+    });
+  }, [refQuery, etape, nature, ministere, search]);
 
   if (currentView === 'detail-aao' && selectedAAO) {
     return (
@@ -266,7 +292,7 @@ const TenderListPage = () => {
                   </p>
                   <Button 
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => {}}
+                    onClick={() => navigate(`/tenders/${selectedAAO.reference}/purchase`)}
                   >
                     Acquérir le dossier d'appel à la concurrence
                   </Button>
@@ -324,9 +350,9 @@ const TenderListPage = () => {
       </header>
 
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-foreground">
+        <h1 className="text-3xl font-bold text-gray-800">
           Avis d'Appels d'Offres (AAO)
-        </h2>
+        </h1>
         <Button 
           variant="outline" 
           onClick={() => setShowFilters(!showFilters)}
@@ -346,52 +372,50 @@ const TenderListPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div>
                 <Label>Référence</Label>
-                <Input 
-                  placeholder="AAO-..." 
-                  className="mt-1 bg-light-gray-7 border-border" 
-                />
+                 <Input placeholder="AAO-..." className="mt-1 bg-light-gray-7 border-border" value={refQuery} onChange={(e)=>setRefQuery(e.target.value)} />
               </div>
               <div>
                 <Label>Étape</Label>
-                <Select>
-                  <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
-                    <SelectValue placeholder="Toutes" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Toutes</SelectItem>
-                    <SelectItem value="ouvert">Ouvert</SelectItem>
-                    <SelectItem value="ferme">Fermé</SelectItem>
-                  </SelectContent>
-                </Select>
+                 <Select value={etape} onValueChange={setEtape}>
+                   <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
+                     <SelectValue placeholder="Toutes" />
+                   </SelectTrigger>
+                   <SelectContent>
+                      <SelectItem value="all">Toutes</SelectItem>
+                     <SelectItem value="ouvert">Ouvert</SelectItem>
+                     <SelectItem value="ferme">Fermé</SelectItem>
+                   </SelectContent>
+                 </Select>
               </div>
               <div>
                 <Label>Nature</Label>
-                <Select>
-                  <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
-                    <SelectValue placeholder="Toutes" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Toutes</SelectItem>
-                    <SelectItem value="travaux">Travaux</SelectItem>
-                    <SelectItem value="fournitures">Fournitures</SelectItem>
-                    <SelectItem value="services">Services</SelectItem>
-                  </SelectContent>
-                </Select>
+                 <Select value={nature} onValueChange={setNature}>
+                   <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
+                     <SelectValue placeholder="Toutes" />
+                   </SelectTrigger>
+                   <SelectContent>
+                      <SelectItem value="all">Toutes</SelectItem>
+                     <SelectItem value="Travaux">Travaux</SelectItem>
+                     <SelectItem value="Fournitures">Fournitures</SelectItem>
+                     <SelectItem value="Services">Services</SelectItem>
+                   </SelectContent>
+                 </Select>
               </div>
               <div>
                 <Label>Ministère</Label>
-                <Select>
-                  <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
-                    <SelectValue placeholder="Tous" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tous</SelectItem>
-                    <SelectItem value="mef">MEF</SelectItem>
-                    <SelectItem value="ms">MS</SelectItem>
-                  </SelectContent>
-                </Select>
+                 <Select value={ministere} onValueChange={setMinistere}>
+                   <SelectTrigger className="mt-1 bg-light-gray-7 border-border">
+                     <SelectValue placeholder="Tous" />
+                   </SelectTrigger>
+                   <SelectContent>
+                      <SelectItem value="all">Tous</SelectItem>
+                     <SelectItem value="MEF">MEF</SelectItem>
+                     <SelectItem value="MS">MS</SelectItem>
+                   </SelectContent>
+                 </Select>
               </div>
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
+                <Button variant="ghost" onClick={resetFilters}>Réinitialiser</Button>
                 <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
                   Rechercher
                 </Button>
@@ -427,10 +451,7 @@ const TenderListPage = () => {
             
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input 
-                placeholder="Rechercher..." 
-                className="pl-10 w-full sm:w-64 bg-light-gray-7 border-border" 
-              />
+              <Input placeholder="Rechercher..." className="pl-10 w-full sm:w-64 bg-light-gray-7 border-border" value={search} onChange={(e)=>setSearch(e.target.value)} />
             </div>
           </div>
 
@@ -447,7 +468,7 @@ const TenderListPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {aaoData.map((item) => (
+                {filtered.map((item) => (
                   <TableRow key={item.id} className="border-b border-border hover:bg-green-pastel/20">
                     <TableCell className="font-mono text-sm py-4">{item.reference}</TableCell>
                     <TableCell className="py-4">

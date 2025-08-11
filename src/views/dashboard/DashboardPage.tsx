@@ -248,6 +248,10 @@ const Header: React.FC<{
                       <p className="font-medium">{user.role}</p>
               </div>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onNavigate('/company')}>
+                      <Building2 className="w-4 h-4 mr-2" />
+                      <span>Compte entreprise</span>
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => onNavigate('/admin/settings')}>
                       <Settings className="w-4 h-4 mr-2" />
                       <span>Paramètres</span>

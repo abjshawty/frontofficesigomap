@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
-  FileText, 
   Search, 
   Filter, 
   Download, 
-  Eye, 
-  Calendar,
-  Building2,
-  TrendingUp,
   ArrowLeft,
-  Clock,
-  CheckCircle,
   RotateCcw,
   FileSpreadsheet,
-  Info,
-  Grid3X3
+  Grid3X3,
+  Info
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/card';
@@ -54,26 +47,9 @@ const MyMarketsPage: React.FC = () => {
       </header>
 
       {/* Contenu principal */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Titre de la page */}
-        <motion.div
-          className="bg-gradient-to-r from-green-600 via-green-600/80 to-green-600 border border-border/30 rounded-2xl p-6 mb-8 relative overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-chart-2/5 opacity-50"></div>
-          <div className="relative z-10 flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center">
-              <Building2 className="w-8 h-8 text-white" />
-            </div>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                Mes marchés
-                <Info className="w-5 h-5 text-white/80" />
-              </h1>
-            </div>
-          </div>
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">Mes marchés</h1>
         </motion.div>
 
         {/* Section Filtres de recherche */}
@@ -83,99 +59,58 @@ const MyMarketsPage: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-6"
         >
-          <Card className="border border-border/20 bg-white/80 backdrop-blur-sm overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-light-gray-1 to-light-gray-2 border-b border-border/20">
-              <CardTitle className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-600/10 rounded-lg flex items-center justify-center">
-                  <Filter className="w-5 h-5 text-green-600" />
-                </div>
-                Filtres de recherche
+          <Card className="rounded-2xl border-slate-200 shadow-sm">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Filter className="w-5 h-5 text-primary" />
+                <span>Filtres de recherche</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6 bg-gradient-to-b from-almost-white to-white">
-              <div className="space-y-4">
-                {/* Marchés */}
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">
-                    Marchés
-                  </Label>
-                  <div className="relative mt-2">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                      placeholder="Chercher"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 bg-light-gray-7 border-border focus:ring-2 focus:ring-green-600/20 focus:border-green-600"
-                    />
-                  </div>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div>
+                <Label className="text-sm" htmlFor="marches">Marchés</Label>
+                <div className="relative mt-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" aria-hidden="true" />
+                  <Input id="marches" placeholder="Chercher" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
                 </div>
-
-                {/* Autorité contractante */}
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">
-                    Autorité contractante
-                  </Label>
-                  <Select value={selectedAuthority} onValueChange={setSelectedAuthority}>
-                    <SelectTrigger className="mt-2 bg-light-gray-7 border-border focus:ring-2 focus:ring-green-600/20 focus:border-green-600">
-                      <SelectValue placeholder="Sélectionner une autorité" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="autorite-1">Autorité Contractante 1</SelectItem>
-                      <SelectItem value="autorite-2">Autorité Contractante 2</SelectItem>
-                      <SelectItem value="autorite-3">Autorité Contractante 3</SelectItem>
-                    </SelectContent>
-                  </Select>
+              </div>
+              <div>
+                <Label htmlFor="autorite">Autorité contractante</Label>
+                <Select value={selectedAuthority} onValueChange={setSelectedAuthority}>
+                  <SelectTrigger id="autorite" className="mt-1">
+                    <SelectValue placeholder="Sélectionner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="autorite-1">Autorité Contractante 1</SelectItem>
+                    <SelectItem value="autorite-2">Autorité Contractante 2</SelectItem>
+                    <SelectItem value="autorite-3">Autorité Contractante 3</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="ministere">Ministère / Institution</Label>
+                <Select value={selectedMinistry} onValueChange={setSelectedMinistry}>
+                  <SelectTrigger id="ministere" className="mt-1">
+                    <SelectValue placeholder="Sélectionner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ministere-economie">Ministère de l'Économie</SelectItem>
+                    <SelectItem value="ministere-sante">Ministère de la Santé</SelectItem>
+                    <SelectItem value="ministere-education">Ministère de l'Éducation</SelectItem>
+                    <SelectItem value="agence-informatique">Agence Nationale de l'Informatique</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="dates">Date de début d'exécution</Label>
+                <div className="grid grid-cols-2 gap-2 mt-1">
+                  <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} placeholder="Date début" />
+                  <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} placeholder="Date de fin" />
                 </div>
-
-                {/* Ministère / Institution */}
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">
-                    Ministère / Institution
-                  </Label>
-                  <Select value={selectedMinistry} onValueChange={setSelectedMinistry}>
-                    <SelectTrigger className="mt-2 bg-light-gray-7 border-border focus:ring-2 focus:ring-green-600/20 focus:border-green-600">
-                      <SelectValue placeholder="Sélectionner un ministère" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ministere-economie">Ministère de l'Économie</SelectItem>
-                      <SelectItem value="ministere-sante">Ministère de la Santé</SelectItem>
-                      <SelectItem value="ministere-education">Ministère de l'Éducation</SelectItem>
-                      <SelectItem value="agence-informatique">Agence Nationale de l'Informatique</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Date de début d'exécution */}
-                <div>
-                  <Label className="text-sm font-medium text-muted-foreground">
-                    Date de début d'exécution
-                  </Label>
-                  <div className="grid grid-cols-2 gap-3 mt-2">
-                    <Input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="bg-light-gray-7 border-border focus:ring-2 focus:ring-green-600/20 focus:border-green-600"
-                      placeholder="Date de début"
-                    />
-                    <Input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="bg-light-gray-7 border-border focus:ring-2 focus:ring-green-600/20 focus:border-green-600"
-                      placeholder="Date de fin"
-                    />
-                  </div>
-                </div>
-
-                {/* Bouton Réinitialiser */}
-                <Button 
-                  variant="outline" 
-                  className="w-full border-green-600/30 text-green-600 hover:bg-green-600/10"
-                >
-                  <RotateCcw className="w-4 h-4 mr-2" />
-                  Réinitialiser les filtres
-                </Button>
+              </div>
+              <div className="flex items-end gap-2 col-span-full justify-end">
+                <Button variant="ghost" onClick={() => { setSearchTerm(''); setSelectedAuthority(''); setSelectedMinistry(''); setStartDate(''); setEndDate(''); }}><RotateCcw className="w-4 h-4 mr-2" />Réinitialiser</Button>
+                <Button className="bg-primary hover:bg-primary/90">Rechercher</Button>
               </div>
             </CardContent>
           </Card>
@@ -187,7 +122,18 @@ const MyMarketsPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Card className="border border-border bg-white">
+          <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-lg">Mes marchés</CardTitle>
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+                  <Input placeholder="Rechercher" className="pl-10 w-80 xl:w-96" />
+                </div>
+                <Button variant="outline"><Grid3X3 className="w-4 h-4 mr-2" />Choix des colonnes</Button>
+                <Button variant="outline"><FileSpreadsheet className="w-4 h-4 mr-2" />Export Excel</Button>
+              </div>
+            </CardHeader>
             <CardContent className="p-6 bg-almost-white">
               {/* Barre de recherche */}
               <div className="mb-4">
@@ -216,7 +162,7 @@ const MyMarketsPage: React.FC = () => {
               </div>
 
               {/* Zone de contenu vide */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-12 text-center">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-12 text-center" aria-live="polite">
                 <Search className="w-16 h-16 text-blue-400 mx-auto mb-4" />
                 <p className="text-lg font-medium text-blue-800 mb-2">
                   Pas de données à afficher

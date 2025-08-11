@@ -43,10 +43,7 @@ const TenderDetailPage = () => {
       {/* Purchase banner (simplifié) */}
       <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 mt-8 flex items-center justify-between">
         <p className="text-sm text-gray-800">Pour consulter le dossier d'appel d'offres complet, veuillez l'acquérir.</p>
-        <Link
-          to="purchase"
-          className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold"
-        >
+        <Link to="purchase" className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold">
           Acquérir le dossier ({data.budget})
         </Link>
       </div>
