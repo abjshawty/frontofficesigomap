@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/dao/edit/[daoId]/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dao/edit/[daoId]/page.js"
+      "static/chunks/app/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -16,40 +16,40 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dao/new/page.js"
     ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
     "/dao/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dao/page.js"
+    ],
+    "/dao/edit/[daoId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/edit/[daoId]/page.js"
+    ],
+    "/dao/[daoId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/[daoId]/page.js"
     ],
     "/procedures-derogatoires/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/procedures-derogatoires/page.js"
     ],
-    "/procedures-derogatoires/select-operation/page": [
+    "/procedures-derogatoires/[procedureId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/procedures-derogatoires/select-operation/page.js"
+      "static/chunks/app/procedures-derogatoires/[procedureId]/page.js"
     ],
     "/procedures-derogatoires/new/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/procedures-derogatoires/new/page.js"
     ],
-    "/validation/page": [
+    "/procedures-derogatoires/select-operation/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/validation/page.js"
-    ],
-    "/cojo/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/cojo/page.js"
+      "static/chunks/app/procedures-derogatoires/select-operation/page.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
