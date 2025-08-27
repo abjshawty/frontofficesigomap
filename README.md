@@ -58,7 +58,6 @@ Pour lancer le projet en local, suivez ces étapes :
     npm run dev
     ```
 
-L'application sera alors accessible à l'adresse [http://localhost:3000](http://localhost:3000).
 
 ### Commandes disponibles
 
@@ -90,14 +89,4 @@ La structure des fichiers est organisée pour favoriser la modularité et la sca
 └── ...                   # Fichiers de configuration (Next.js, Tailwind, etc.)
 ```
 
----
 
-## 🤝 Contribution
-
-Les contributions sont les bienvenues. Pour proposer des améliorations, veuillez suivre la procédure standard :
-
-1.  Forker le projet.
-2.  Créer une branche pour votre fonctionnalité (`git checkout -b feature/NomDeLaFeature`).
-3.  Committer vos changements (`git commit -m 'Ajout de la feature X'`).
-4.  Pousser vers la branche (`git push origin feature/NomDeLaFeature`).
-5.  Ouvrir une Pull Request.
