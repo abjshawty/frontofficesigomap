@@ -1,0 +1,9 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dao/edit/[daoId]/page": "app/dao/edit/[daoId]/page.js",
+  "/dao/new/page": "app/dao/new/page.js",
+  "/procedures-derogatoires/page": "app/procedures-derogatoires/page.js",
+  "/procedures-derogatoires/new/page": "app/procedures-derogatoires/new/page.js",
+  "/validation/page": "app/validation/page.js",
+  "/cojo/page": "app/cojo/page.js"
+}
