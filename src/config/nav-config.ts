@@ -1,7 +1,7 @@
 import {
     LayoutDashboard, CalendarCheck, ClipboardList, FileText,
     FileWarning, FileStack, FileSignature, Users, GanttChartSquare,
-    Gavel, Handshake, Stamp, Rocket, Building2
+    Gavel, Handshake, Stamp, Rocket, Building2, FolderGit2, Edit
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -90,12 +90,26 @@ export const navConfig: Record<string, ModuleConfig> = {
         }
     },
     CONTRACT: {
-        name: "CONTRACT",
+        name: "Contractualisation",
         label: "Contractualisation",
         icon: Handshake,
         href: "/contractualisation",
         activeFor: ["/contractualisation"],
-        // No sub-menu for this module yet
+        sidebarNav: {
+            title: "Suivi des Marchés",
+            items: [
+                { type: 'link', label: "Tableau de bord", href: "/contractualisation", icon: LayoutDashboard },
+                {
+                    type: 'accordion',
+                    label: "Contractualisation",
+                    icon: FileSignature,
+                    children: [
+                        { label: "Attributions", href: "/contractualisation/attributions", icon: ClipboardList },
+                        { label: "Marchés", href: "/contractualisation/marches", icon: FileText },
+                    ]
+                }
+            ]
+        }
     },
     VALIDATION: {
         name: "VALIDATION",
@@ -103,23 +117,26 @@ export const navConfig: Record<string, ModuleConfig> = {
         icon: Stamp,
         href: "/validation",
         activeFor: ["/validation"],
-        // No sub-menu for this module yet
+        sidebarNav: {
+            title: "Contrôle des Marchés",
+            items: [
+                { type: 'link', label: "Tableau de bord", href: "/validation", icon: LayoutDashboard },
+                { type: 'link', label: "Dossiers en cours", href: "/validation/dossiers", icon: FolderGit2 },
+            ]
+        }
     },
     DEMARRAGE: {
-        name: "START",
+        name: "Démarrage",
         label: "Démarrage Marché",
         icon: Rocket,
         href: "/demarrage",
         activeFor: ["/demarrage"],
-        // No sub-menu for this module yet
-    },
-    OE: {
-        name: "OE",
-        label: "Portail Opérateur",
-        icon: Building2,
-        href: "/portail-oe",
-        activeFor: ["/portail-oe"],
-        // No sub-menu for this module yet
+        sidebarNav: {
+            title: "Finalisation",
+            items: [
+                { type: 'link', label: "Marchés à finaliser", href: "/demarrage", icon: Edit },
+            ]
+        }
     },
 };
 

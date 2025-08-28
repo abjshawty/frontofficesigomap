@@ -27,7 +27,7 @@ export function CompactSidebar() {
     .sort((a, b) => b.matchLength - a.matchLength)[0]?.name;
 
   return (
-    <div className="w-20 bg-sigomap-bg-secondary border-r border-sigomap-gris-light flex flex-col">
+    <div className="w-28 bg-sigomap-bg-secondary border-r border-sigomap-gris-light flex flex-col">
       <div className="h-16 flex items-center justify-center border-b border-sigomap-gris-light bg-gradient-to-b from-sigomap-blanc to-sigomap-bg-secondary">
         <div className="w-10 h-10 bg-gradient-to-br from-sigomap-blanc to-sigomap-bg-primary rounded-sm flex items-center justify-center p-1 border border-sigomap-orange/50">
           <Image src={logoSrc} alt="Armoiries de Côte d'Ivoire" width={32} height={32} />

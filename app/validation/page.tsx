@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { MainLayout } from "@/components/ui/MainLayout";
 
 export default function ValidationPage() {
@@ -6,10 +6,11 @@ export default function ValidationPage() {
     <MainLayout>
       <Card>
         <CardHeader>
-          <CardTitle>Module 4 : Circuit de Validation du Marché</CardTitle>
+          <CardTitle>Tableau de Bord - Validation DGMP</CardTitle>
+          <CardDescription>Vue d'ensemble des dossiers de marché en attente de validation.</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Cette page contiendra les outils pour le circuit de validation de la DGMP.</p>
+          <p>Ce tableau de bord affichera des indicateurs clés et des accès rapides aux dossiers nécessitant une action.</p>
         </CardContent>
       </Card>
     </MainLayout>

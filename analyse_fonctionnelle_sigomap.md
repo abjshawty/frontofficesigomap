@@ -332,8 +332,8 @@ Ce module couvre le processus allant de la publication des résultats de l'appel
 1.  L'AC se connecte et navigue vers la section des attributions.
 2.  L'AC publie les résultats d'une attribution finalisée.
 3.  L'AC retrouve l'attribution publiée et initie la création du marché.
-4.  L'AC remplit un formulaire en plusieurs étapes pour définir les détails du marché (informations générales, finances, échéancier).
-5.  L'AC gère les documents contractuels, notamment la mise à jour du CCAP (Cahier des Clauses Administratives Particulières).
+4.  L'AC remplit un formulaire en plusieurs étapes pour définir les détails du marché (informations générales, ajustement des quantités, finances, échéancier).
+5.  L'AC gère les documents contractuels, notamment la **finalisation du CCAP** qui était à l'état de modèle depuis la phase DAO.
 6.  L'AC génère une version "brouillon" de la page de garde du marché pour vérification.
 7.  L'AC transmet le dossier complet à la DGMP pour validation.
 
@@ -383,24 +383,22 @@ Ce module couvre le processus allant de la publication des résultats de l'appel
 | Compte bancaire de l'OE | Dropdown / Select | Liste des comptes de l'OE. Inclut une action "Ajouter un nouveau compte". |
 | Date d'attribution | Date Picker | |
 
-**Popup (Formulaire) : Ajout d'un nouveau compte bancaire**
+##### Étape 2 : Ajustement des Quantités et des Prix (Nouveau)
+> **Règle de gestion** : Conformément à la discussion (`02:05:31`), cette étape permet à l'AC d'ajuster le marché si l'offre de l'attributaire diffère du budget prévisionnel.
 
-| Nom du champ | Type de Donnée | Notes |
-|---|---|---|
-| Libellé du compte | String | Ex: "Compte principal Biotop" |
-| Pays | Dropdown / Select | |
-| Banque | String | |
-| Code Guichet | String | 5 chiffres |
-| Numéro de compte | String | 12 chiffres |
-| Clé RIB | String | 2 chiffres |
+- **Vue**: Interface affichant le montant prévisionnel (issu du DAO) et le montant de l'offre retenue.
+- **Interactions**:
+    - Si l'offre est supérieure au budget, l'AC peut réduire les quantités (dans la limite de 25%). Un champ permet de spécifier le nouveau montant ou le pourcentage de réduction.
+    - Si l'offre est inférieure, l'AC peut augmenter les quantités (dans la limite de 15%).
+    - L'AC valide l'ajustement pour passer à l'étape suivante.
 
-##### Étape 2 : Paramètres Financiers & Échéancier
+##### Étape 3 : Paramètres Financiers & Échéancier
 
 | Nom du champ | Type de Donnée | Notes |
 |---|---|---|
 | Taux de retenue de garantie (%) | Number | Optionnel |
 | Taux de garantie de bonne exécution (%) | Number | |
-| Montant du marché | Number | |
+| Montant final du marché | Number | Pré-rempli avec le montant ajusté de l'étape précédente. |
 | Source de financement | Dropdown / Select | Ex: "Trésor", "Bailleur (Don)", "Bailleur (Emprunt)" |
 
 **Section : Liste des Échéanciers de Paiement**
@@ -420,7 +418,7 @@ Ce module couvre le processus allant de la publication des résultats de l'appel
 | Exercice budgétaire | Dropdown / Select (Années) |
 | Montant | Number |
 
-##### Étape 3 : Financement de l'Échéancier
+##### Étape 4 : Financement de l'Échéancier
 - **Vue**: Accessible depuis la liste des échéanciers. Permet de lier un échéancier à une ou plusieurs lignes budgétaires.
 > **Règle de gestion** : Le système doit bloquer toute tentative d'imputer un montant sur une ligne budgétaire si la source de financement de cette ligne (Trésor, Don, Emprunt) ne correspond pas à celle déclarée pour le marché.
 
@@ -446,13 +444,13 @@ Ce module couvre le processus allant de la publication des résultats de l'appel
     - "Génération brouillon de la page de garde".
 
 > **Règles de gestion liées à la contractualisation** :
-> 1.  **Format de numérotation** : La numérotation des marchés suit une codification stricte qui inclut année, rang (0 pour marché initial), type, mode, nature, séquentiel, type structure et ministère.
+> 1.  **Format de numérotation** : La numérotation des marchés suit une codification stricte qui inclut : `année`, `rang` (0 pour marché initial, 1+ pour avenants), `type de marché`, `mode de passation`, `nature`, `numéro séquentiel`, `code type structure` et `code ministère`.
 > 2.  **Plafonnement des avenants** : Le montant cumulé des avenants ne peut excéder 30% du marché initial. Le rang (1, 2, 3...) de l'avenant est incrémenté dans le numéro du marché pour assurer la traçabilité.
 
 | Document | Origine | Actions possibles |
 |---|---|---|
 | Projet de marché | Upload par l'AC | Supprimer |
-| CCAP | Auto-généré | Modifier, Visualiser (PDF) |
+| CCAP | Auto-généré | Finaliser, Visualiser (PDF) |
 | Page de Garde | Auto-généré | Visualiser (PDF) |
 
 ***
@@ -461,12 +459,14 @@ Ce module couvre le processus allant de la publication des résultats de l'appel
 *   **Document (CCAP / Page de Garde)** : Read, Update (implicite via les actions de modification et de génération).
 ***
 
-#### Écran 5 : Formulaire de Modification du CCAP
-- **Vue**: Formulaire pré-rempli avec les données du DAO, permettant de compléter les informations désormais disponibles.
+#### Écran 5 : Formulaire de Finalisation du CCAP
+- **Vue**: Formulaire pré-rempli avec les données du DAO (qui servait de modèle), permettant de compléter les informations désormais disponibles après l'attribution.
 
 | Nom du champ | Type de Donnée | Notes |
 |---|---|---|
 | Autorité Contractante | String | Doit être pré-rempli automatiquement. |
+| Attributaire (OE) | String | Pré-rempli avec le nom de l'entreprise gagnante. |
+| Compte Bancaire de l'Attributaire | String | Pré-rempli avec le compte sélectionné à l'étape 1. |
 | Montant final du marché | Number | Champ qui n'était pas connu au stade du DAO. |
 | Prix (fermes ou révisables) | Radio Button (Oui/Non) | |
 | Modalité de révision des prix | Textarea | Conditionnel à la réponse précédente. |
@@ -485,11 +485,16 @@ Ce module décrit le workflow d'approbation du projet de marché par les différ
 
 ### Parcours Utilisateur
 
-1.  Le Chef de Service (DGMP) reçoit une notification et voit le dossier "à affecter".
-2.  Il affecte le dossier à un Chargé d'études.
-3.  Le Chargé d'études instruit le dossier, ajoute des documents internes et le transmet à son supérieur (Sous-Directeur).
-4.  Le dossier remonte la chaîne hiérarchique (Sous-Directeur -> Directeur -> Directeur Général).
-5.  Le Directeur Général prend la décision finale : Valider, Renvoyer (à l'AC ou à un niveau inférieur) ou Suspendre.
+1.  Le **Chef de Service** (DGMP) reçoit une notification et voit le dossier "à affecter" dans son tableau de bord.
+2.  Il **affecte** le dossier à un Chargé d'études disponible.
+3.  Le **Chargé d'études** **instruit** le dossier : il vérifie la conformité de toutes les pièces, ajoute des documents internes si nécessaire (notes d'analyse, etc.) et le transmet à son supérieur.
+4.  Le dossier remonte la chaîne hiérarchique (Sous-Directeur -> Directeur), chaque niveau pouvant le valider pour le faire suivre ou le renvoyer au niveau inférieur pour correction.
+5.  Le **Directeur Général** reçoit le dossier pour la décision finale. Il peut :
+    -   **Valider** le marché.
+    -   **Renvoyer** le dossier (soit à l'AC, soit à un niveau inférieur de la DGMP pour révision).
+    -   **Suspendre** le marché.
+
+> **Règle de gestion critique - Prévention des erreurs** : Chaque action de transition (Affecter, Transmettre, Valider, Renvoyer, Suspendre) doit être confirmée via une **modale récapitulative** pour éviter les erreurs de manipulation, comme discuté longuement durant la session (`00:47:40`). Exemple : "Vous êtes sur le point de RENVOYER ce dossier à l'Autorité Contractante. Confirmer ?".
 
 ### États du Marché
 
@@ -541,6 +546,8 @@ Après validation de la DGMP, ce module couvre les dernières étapes avant le d
 5.  L'AC émet l'Ordre de Service (OS) de démarrage en précisant les dates clés.
 6.  L'AC confirme la réception de l'accusé de réception de l'OS par l'OE. Le marché passe au statut `Marché démarré`.
 
+> **Règle de gestion - Sécurisation du démarrage** : L'action d'émettre l'Ordre de Service de démarrage est une étape critique. Elle doit être protégée par une **modale de confirmation** qui récapitule les dates clés (début et fin d'exécution) avant la validation finale par l'utilisateur.
+
 ### Écrans, Champs et Interactions
 
 #### Écran 1 : Formulaire de Confirmation des Signatures
@@ -562,112 +569,6 @@ Après validation de la DGMP, ce module couvre les dernières étapes avant le d
 
 ---
 
-## Module 6 : Portail Opérateur Économique (Perspective OE)
-
-Cet espace est dédié aux entreprises pour interagir avec la plateforme SIGOMAP.
-
-### Parcours Utilisateur
-
-1.  L'OE se connecte via une authentification (OTP mentionné).
-2.  L'OE consulte les plans de passation de marchés et les avis d'appel d'offres (AAO).
-3.  L'OE exprime son intérêt pour un AAO, ce qui peut nécessiter l'acquisition payante du dossier.
-4.  Si le dossier est payant, l'OE est redirigé vers une plateforme de paiement (Carte Bancaire, Orange Money).
-5.  Une fois l'intérêt confirmé, l'OE peut déposer ses offres (technique, financière) et poser des questions (demande d'éclaircissement).
-6.  L'OE peut consulter les résultats des attributions.
-7.  L'OE peut consulter la liste de ses propres marchés (`Mes marchés`).
-8.  L'OE peut gérer les utilisateurs de son entreprise ayant accès à la plateforme.
-
-### Écrans, Champs et Interactions
-
-#### Écran 1 : Tableau de Bord
-- **Vue**: Page d'accueil avec des tuiles ou un menu pour accéder aux 6 modules principaux (`Opérations`, `Avis d'Appel d'Offres`, `Invitation restreint`, `Opérations en cours`, `Mes marchés`, `Mes utilisateurs`).
-
-#### Écran 2 : Liste des Avis d'Appel d'Offre
-- **Vue**: Tableau de tous les AAO publiés. Filtres possibles.
-
-| Champ / Colonne | Type de Donnée |
-|---|---|
-| Référence | String |
-| Objet | String |
-| Autorité Contractante | String |
-| Montant de l'achat du dossier | Number / String | "Gratuit" ou un montant |
-
-#### Écran 3 : Détail d'un Avis d'Appel d'Offre
-- **Vue**: Page complète avec toutes les informations de l'AAO. Les interactions "Poser une question" et "Déposer une offre" ouvrent des formulaires dédiés.
-- **Interactions**:
-    - "Télécharger le dossier" (si gratuit).
-    - "Acquérir le dossier" (si payant, redirige vers paiement).
-    - "Confirmer l'intérêt" (après acquisition).
-    - "Poser une question / Demande d'éclaircissement".
-    - "Déposer une offre" (après confirmation de l'intérêt).
-> **Règles de gestion clés pour l'OE** :
-> 1.  **Acquisition de dossier** : Si un dossier d'appel d'offres (DAO) est payant, l'acquisition est une étape obligatoire avant de pouvoir soumissionner.
-> 2.  **Coffre-fort numérique** : Les offres soumises sont inaccessibles à quiconque avant la date et l'heure exactes de l'ouverture de la séance.
-> 3.  **Modification d'offre avant clôture** : Un OE peut librement retirer et remplacer les documents de son offre jusqu'à la date et l'heure de clôture. Passé ce délai, toute modification est impossible.
-> 4.  **Transparence des échanges** : Toute question posée à l'AC, ainsi que la réponse, sont visibles par tous les autres OE ayant manifesté un intérêt pour ce même appel d'offres.
-
-#### Écran 4 : Plateforme de Paiement (Intégration)
-- **Vue**: Interface pour le paiement en ligne.
-
-| Méthode | Champs Requis |
-|---|---|
-| **Carte Bancaire** | Nom sur la carte (String), Numéro de carte (String), Date d'expiration (Date), Code de sécurité CVV (String) |
-| **Orange Money** | Numéro de téléphone (String), Code OTP reçu (String) |
-
-#### Écran 5 : Mes Marchés
-- **Vue**: Tableau listant tous les marchés remportés par l'OE.
-
-| Champ / Colonne | Type de Donnée |
-|---|---|
-| Numéro du Marché | String |
-| Objet | String |
-| Autorité Contractante | String |
-| Montant | Number |
-| Statut | String (`Approuvé`, `Démarré`, `En exécution`, etc.) |
-
-***
-**Opérations CRUD sur les données :**
-*   **Marché (de l'OE)** : Read (liste).
-***
-
-#### Écran 6 : Résultats des Appels d'Offres
-- **Vue**: Tableau public de toutes les attributions finalisées sur la plateforme.
-> **Règle de gestion** : La consultation des résultats est publique. Tous les OE inscrits peuvent voir les attributions, même s'ils n'ont pas participé à la procédure.
-
-| Champ / Colonne | Type de Donnée |
-|---|---|
-| Référence | String |
-| Objet | String |
-| Autorité Contractante | String |
-| Attributaire | String |
-| Montant de l'attribution | Number |
-
-***
-**Opérations CRUD sur les données :**
-*   **Attribution** : Read (liste publique).
-***
-
-#### Écran 7 : Gestion des Utilisateurs (Module "Mes Utilisateurs")
-- **Vue** : Interface (tableau et formulaires) permettant à l'administrateur de l'OE de gérer les accès à la plateforme.
-- **Interactions** : "Ajouter un utilisateur" (ouvre un formulaire), "Modifier" (ouvre un formulaire pré-rempli), "Supprimer/Désactiver un utilisateur".
-
-***
-**Opérations CRUD sur les données :**
-*   **Utilisateur (de l'OE)** : Create, Read (liste), Update, Delete.
-***
-
----
-
-## Prochaines Étapes et Actions à Entreprendre
-
-Ce document d'analyse fonctionnelle sert de fondation pour les phases suivantes du projet. Les actions recommandées sont :
-
-1.  **Validation** : Faire valider ce document par l'ensemble des parties prenantes (métier et technique) pour s'assurer qu'il reflète fidèlement les besoins et les processus cibles.
-2.  **Prototypage (UI/UX)** : Lancer la phase de conception des interfaces utilisateur et de l'expérience utilisateur (maquettes et prototypes interactifs) en se basant sur les écrans et parcours décrits ici.
-3.  **Spécifications Techniques** : Rédiger le document d'architecture et les spécifications techniques détaillées (modèle de données, choix technologiques, API...).
-4.  **Planification du Développement** : Découper le projet en lots fonctionnels ou en sprints (méthode Agile) et établir un planning de réalisation.
-
----
 
 ## Annexe : Suggestions d'Amélioration Stratégique (Points de douleur identifiés)
 

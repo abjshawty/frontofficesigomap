@@ -53,7 +53,7 @@ const DetailItem = ({ label, value }: { label: string; value: string | number | 
 
 const statusVariants = {
     "Brouillon": "secondary",
-    "En validation": "en-ente",
+    "En validation": "en-attente",
     "Approuvée": "actif",
     "Rejetée": "destructive",
 } as const;
@@ -124,7 +124,7 @@ export default function ProcedureDetailPage() {
             </CardHeader>
             <CardContent>
                 <div className="space-y-2">
-                    {procedure.documents.map((doc, index) => (
+                    {procedure.documents.map((doc: { nom: string, url: string }, index: number) => (
                         <a 
                             href={doc.url} 
                             key={index} 

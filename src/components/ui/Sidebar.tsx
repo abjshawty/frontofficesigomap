@@ -46,6 +46,21 @@ export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: Sideba
     setOpenAccordion(openAccordion === label ? null : label);
   };
 
+  const getActiveLink = useCallback(() => {
+    if (!navItems) return null;
+
+    const matchingLinks = navItems
+        .filter((item): item is Extract<SidebarNavItem, { type: 'link' }> => item.type === 'link')
+        .filter(item => pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/'));
+
+    if (matchingLinks.length === 0) return null;
+
+    matchingLinks.sort((a, b) => b.href.length - a.href.length);
+    return matchingLinks[0];
+  }, [pathname, navItems]);
+
+  const activeLink = getActiveLink();
+
   return (
     <div className={cn(
       "flex-1 flex flex-col bg-sigomap-blanc w-full border-r border-sigomap-gris-light transition-all duration-300 ease-in-out",
@@ -82,7 +97,7 @@ export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: Sideba
 
         {navItems && navItems.map((item) => {
           if (item.type === 'link') {
-            const isActive = pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/');
+            const isActive = activeLink ? item.href === activeLink.href : false;
             return (
               <div key={item.label}>
                 <Link
@@ -120,7 +135,7 @@ export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: Sideba
                     "w-full group flex items-center justify-between px-3 py-2 text-sm font-normal transition-all duration-200 rounded-md",
                      isCollapsed && "justify-center",
                     (isOpen && !isCollapsed) || isChildActive
-                      ? "bg-sigomap-bg-secondary text-sigomap-vert-dark"
+                      ? "bg-sigomap-bg-secondary text-sigomap-gris-dark"
                       : "text-sigomap-gris-dark hover:text-sigomap-vert-dark hover:bg-sigomap-bg-secondary/50"
                   )}
                 >
@@ -128,14 +143,14 @@ export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: Sideba
                     <item.icon className={cn(
                         "h-4 w-4 flex-shrink-0 transition-colors duration-200",
                         !isCollapsed && "mr-3",
-                        (isOpen && !isCollapsed) || isChildActive ? "text-sigomap-vert-dark" : "text-sigomap-gris group-hover:text-sigomap-vert-dark"
+                        (isOpen && !isCollapsed) || isChildActive ? "text-sigomap-gris-dark" : "text-sigomap-gris group-hover:text-sigomap-vert-dark"
                     )} />
                     <span className={cn("font-medium transition-all duration-300", isCollapsed && "opacity-0 w-0 h-0")}>{item.label}</span>
                   </div>
                   {!isCollapsed && (
                     <ChevronRight className={cn(
                         "h-4 w-4 transition-all duration-300 ease-in-out",
-                        isOpen ? "rotate-90 text-sigomap-vert-dark" : "text-sigomap-gris group-hover:text-sigomap-vert-dark"
+                        isOpen ? "rotate-90 text-sigomap-gris-dark" : "text-sigomap-gris group-hover:text-sigomap-vert-dark"
                     )} />
                   )}
                 </button>
@@ -153,7 +168,7 @@ export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: Sideba
                                     className={cn(
                                         "group flex items-center px-3 py-2 text-sm transition-all duration-200 rounded-md",
                                         isChildLinkActive 
-                                            ? "text-sigomap-vert-dark" 
+                                            ? "bg-sigomap-vert/10 text-sigomap-vert-dark" 
                                             : "text-sigomap-gris-dark hover:text-sigomap-vert-dark hover:bg-sigomap-bg-secondary/50"
                                     )}
                                 >

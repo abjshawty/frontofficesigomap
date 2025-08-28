@@ -17,6 +17,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { VueDetailsSessionCojo } from "@/components/cojo/VueDetailsSessionCojo";
 import { VuePreValidationSessionCojo } from "@/components/cojo/VuePreValidationSessionCojo";
+import { VueSessionCojoScellee } from "@/components/cojo/VueSessionCojoScellee";
 
 // --- Mock Data ---
 const sessions: Record<string, any> = {
@@ -101,7 +102,7 @@ export default function CojoSessionWorkspacePage({ params }: { params: { session
                 </div>
 
                 {isSealed ? (
-                    <div>Session scellée - Ouverture le: {new Date(sessionDetails.openingDate).toLocaleDateString()}</div>
+                    <VueSessionCojoScellee openingDate={sessionDetails.openingDate} />
                 ) : sessionDetails.status === 'pre-validation' ? (
                     <div className="mt-8">
                         <VuePreValidationSessionCojo onConfirmCloture={handleConfirmCloture} />
