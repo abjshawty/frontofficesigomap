@@ -8,12 +8,12 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter, useParams } from 'next/navigation';
 
 // Importer les composants de formulaire pour chaque section
-import DAOGeneralParams from '@/components/dao/DAOGeneralParams';
-import DaoCcapEditor from '@/components/dao/DaoCcapEditor';
-import DaoAllotissement from '@/components/dao/DaoAllotissement';
-import DaoCriteres from '@/components/dao/DaoCriteres';
-import DaoCommission from '@/components/dao/DaoCommission';
-import DaoDocuments from '@/components/dao/DaoDocuments';
+import FormulaireDaoParametresGeneraux from "@/components/dao/FormulaireDaoParametresGeneraux";
+import EditeurDaoCcap from '@/components/dao/EditeurDaoCcap';
+import FormulaireDaoAllotissement from '@/components/dao/FormulaireDaoAllotissement';
+import FormulaireDaoCriteres from "@/components/dao/FormulaireDaoCriteres";
+import FormulaireDaoCommission from '@/components/dao/FormulaireDaoCommission';
+import GestionnaireDaoDocuments from "@/components/dao/GestionnaireDaoDocuments";
 
 const TABS = [
   "Paramètres Généraux",
@@ -34,22 +34,25 @@ export default function DaoEditPage() {
   const daoReference = `DAO/2025/${daoId}`;
 
   const renderContent = () => {
-    switch (activeTab) {
-      case "Paramètres Généraux":
-        return <DAOGeneralParams daoId={daoId as string} />;
-      case "CCAP":
-        return <DaoCcapEditor daoId={daoId as string} />;
-      case "Allotissement":
-        return <DaoAllotissement daoId={daoId as string} />;
-      case "Critères d'Évaluation":
-        return <DaoCriteres daoId={daoId as string} />;
-      case "Commission (COJO)":
-        return <DaoCommission daoId={daoId as string} />;
-      case "Pièces du Dossier":
-        return <DaoDocuments daoId={daoId as string} />;
-      default:
-        return null;
+    if (activeTab === "Paramètres Généraux") {
+        return <FormulaireDaoParametresGeneraux daoId={daoId as string} />;
     }
+    if (activeTab === "CCAP") {
+        return <EditeurDaoCcap daoId={daoId as string} />;
+    }
+    if (activeTab === "Allotissement") {
+        return <FormulaireDaoAllotissement daoId={daoId as string} />;
+    }
+    if (activeTab === "Critères d'Évaluation") {
+        return <FormulaireDaoCriteres daoId={daoId as string} />;
+    }
+    if (activeTab === "Commission (COJO)") {
+        return <FormulaireDaoCommission daoId={daoId as string} />;
+    }
+    if (activeTab === "Pièces du Dossier") {
+        return <GestionnaireDaoDocuments daoId={daoId as string} />;
+    }
+    return null;
   };
 
   return (

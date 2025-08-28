@@ -11,50 +11,95 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/dao/new/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dao/new/page.js"
-    ],
     "/dao/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dao/page.js"
-    ],
-    "/dao/edit/[daoId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dao/edit/[daoId]/page.js"
-    ],
-    "/dao/[daoId]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dao/[daoId]/page.js"
     ],
     "/procedures-derogatoires/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/procedures-derogatoires/page.js"
     ],
-    "/procedures-derogatoires/[procedureId]/page": [
+    "/dao/new/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/procedures-derogatoires/[procedureId]/page.js"
+      "static/chunks/app/dao/new/page.js"
     ],
-    "/procedures-derogatoires/new/page": [
+    "/dao/edit/[daoId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/procedures-derogatoires/new/page.js"
+      "static/chunks/app/dao/edit/[daoId]/page.js"
+    ],
+    "/cojo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cojo/page.js"
+    ],
+    "/dao/planification/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/planification/layout.js"
+    ],
+    "/dao/[daoId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/[daoId]/page.js"
+    ],
+    "/dao/planification/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/planification/page.js"
+    ],
+    "/dao/planification/[planId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/planification/[planId]/page.js"
+    ],
+    "/dao/planification/operations/new/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/planification/operations/new/page.js"
+    ],
+    "/dao/planification/operations/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dao/planification/operations/page.js"
     ],
     "/procedures-derogatoires/select-operation/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/procedures-derogatoires/select-operation/page.js"
     ],
-    "/_not-found/page": [
+    "/procedures-derogatoires/new/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/procedures-derogatoires/new/page.js"
+    ],
+    "/contractualisation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contractualisation/page.js"
+    ],
+    "/cojo/[sessionId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cojo/[sessionId]/page.js"
+    ],
+    "/cojo/[sessionId]/evaluer/[offreId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cojo/[sessionId]/evaluer/[offreId]/page.js"
+    ],
+    "/cojo/[sessionId]/evaluer/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cojo/[sessionId]/evaluer/page.js"
+    ],
+    "/procedures-derogatoires/[procedureId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/procedures-derogatoires/[procedureId]/page.js"
     ]
   }
 }

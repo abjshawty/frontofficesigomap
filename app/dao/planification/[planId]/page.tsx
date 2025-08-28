@@ -5,9 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { PlusCircle, MoreHorizontal, ArrowLeft } from "lucide-react";
+import { PlusCircle, MoreHorizontal, ArrowLeft, Search } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/DropdownMenu";
 import { useParams, useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
+import { Input } from "@/components/ui/Input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 const operationsData: { [key: string]: any[] } = {
   "plan-001": [
@@ -39,6 +42,22 @@ export default function PlanOperationsPage() {
   const operations = operationsData[planId] || [];
   const planTitle = planTitles[planId] || "Plan inconnu";
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  const statuses = useMemo(() => {
+    const allStatuses = operations.map(op => op.status);
+    return ['all', ...Array.from(new Set(allStatuses))];
+  }, [operations]);
+
+  const filteredOperations = useMemo(() => {
+    return operations.filter(op => {
+      const searchMatch = op.object.toLowerCase().includes(searchTerm.toLowerCase());
+      const statusMatch = statusFilter === 'all' || op.status === statusFilter;
+      return searchMatch && statusMatch;
+    });
+  }, [operations, searchTerm, statusFilter]);
+
   const getStatusVariant = (status: string) => {
     switch (status) {
       case "Publiée": return "success";
@@ -50,26 +69,53 @@ export default function PlanOperationsPage() {
   };
 
   return (
-    <div className="p-8">
-       <Button variant="outline" size="sm" onClick={() => router.push('/dao/planification')} className="mb-4">
+    <div className="space-y-6">
+       <Button variant="outline" size="sm" onClick={() => router.push('/dao/planification')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Retour aux plans
         </Button>
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-start">
+        
+        <div className="flex justify-between items-center">
             <div>
-              <CardTitle>Opérations du Plan</CardTitle>
-              <CardDescription>
-                {planTitle}
-              </CardDescription>
+                <h1 className="text-lg font-semibold md:text-2xl">Opérations du Plan</h1>
+                <p className="text-sm text-muted-foreground">{planTitle}</p>
             </div>
-            <Button onClick={() => router.push('/dao/planification/operations/new')}>
-              <PlusCircle className="mr-2 h-4 w-4" /> Ajouter une opération
+            <Button size="sm" onClick={() => router.push('/dao/planification/operations/new')}>
+              <PlusCircle className="h-4 w-4 mr-2" /> Ajouter une opération
             </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
+        </div>
+
+        <Card>
+            <CardHeader>
+                <CardTitle className="text-base">Filtres</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                        placeholder="Rechercher par objet..." 
+                        className="pl-10"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Filtrer par statut" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {statuses.map(status => (
+                            <SelectItem key={status} value={status}>
+                                {status === 'all' ? 'Tous les statuts' : status}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </CardContent>
+        </Card>
+
+      <Card>
+        <CardContent className="pt-6">
           <Table>
             <TableHeader>
               <TableRow>
@@ -80,7 +126,7 @@ export default function PlanOperationsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {operations.map((op) => (
+              {filteredOperations.map((op) => (
                 <TableRow key={op.id}>
                   <TableCell className="font-medium">{op.object}</TableCell>
                   <TableCell className="text-right">{op.amount.toLocaleString('fr-FR')}</TableCell>

@@ -1,82 +1,45 @@
 "use client"
 
-import { useState } from "react"
-import {
-  LayoutDashboard,
-  CalendarCheck,
-  ClipboardList,
-  FileText,
-  FileWarning,
-  ChevronRight,
-  ChevronLeft,
-  FileStack,
-  FileSignature,
-} from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
+import { ChevronRight, ChevronLeft } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/components/lib/utils"
-import type { LucideIcon } from "lucide-react"
-
-interface NavLink {
-    label: string;
-    href: string;
-    icon: LucideIcon;
-}
-
-interface NavItemBase {
-    label: string;
-    icon: LucideIcon;
-}
-
-interface NavItemLink extends NavItemBase {
-    type: 'link';
-    href: string;
-}
-
-interface NavItemAccordion extends NavItemBase {
-    type: 'accordion';
-    children: NavLink[];
-}
-
-type NavItem = NavItemLink | NavItemAccordion;
-
-
-const navItems: NavItem[] = [
-    { 
-        type: 'link', 
-        label: "Tableau de bord", 
-        href: "/dashboard", 
-        icon: LayoutDashboard 
-    },
-    {
-        type: 'accordion',
-        label: "Planification",
-        icon: CalendarCheck,
-        children: [
-            { label: "Plans de Passation", href: "/planification/plans", icon: FileStack },
-            { label: "Opérations", href: "/planification/operations", icon: ClipboardList },
-        ]
-    },
-    {
-        type: 'accordion',
-        label: "Procédures de Passation",
-        icon: FileSignature,
-        children: [
-            { label: "Dossiers d'Appel d'Offres", href: "/dao", icon: FileText },
-            { label: "Procédures Dérogatoires", href: "/procedures-derogatoires", icon: FileWarning },
-        ]
-    }
-];
-
+import type { SidebarNavItem } from "@/config/nav-config"
 
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
+  navItems: SidebarNavItem[];
+  moduleTitle: string;
 }
 
-export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
+export function Sidebar({ isCollapsed, onToggle, navItems, moduleTitle }: SidebarProps) {
   const pathname = usePathname()
-  const [openAccordion, setOpenAccordion] = useState<string | null>("Planification");
+
+  const getActiveAccordion = useCallback(() => {
+    if (!navItems) return null;
+    const activeItem = navItems
+      .filter((item): item is Extract<SidebarNavItem, { type: 'accordion' }> => item.type === 'accordion')
+      .map(item => {
+        const matchingChild = item.children.find(child => pathname.startsWith(child.href));
+        return matchingChild ? { ...item, hrefLength: matchingChild.href.length } : null;
+      })
+      .filter((item): item is Extract<SidebarNavItem, { type: 'accordion' }> & { hrefLength: number } => item !== null)
+      .sort((a, b) => b.hrefLength - a.hrefLength)[0];
+      
+    return activeItem ? activeItem.label : null;
+  }, [pathname, navItems]);
+
+  const [openAccordion, setOpenAccordion] = useState<string | null>(getActiveAccordion());
+
+  useEffect(() => {
+    if (isCollapsed) {
+      setOpenAccordion(null);
+    } else {
+      setOpenAccordion(getActiveAccordion());
+    }
+  }, [pathname, isCollapsed, getActiveAccordion]);
 
   const handleAccordionToggle = (label: string) => {
     if (isCollapsed) return;
@@ -93,7 +56,7 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
             <div className="w-3 h-3 rounded-full bg-sigomap-bleu"></div>
             <div>
                 <div className="text-[10px] font-semibold text-sigomap-gris-dark tracking-wide">
-                Commande Publique
+                {moduleTitle}
                 </div>
                 <div className="text-[8px] font-light text-sigomap-gris tracking-wide">
                 SIGOMAP
@@ -113,13 +76,13 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                 "text-xs font-semibold text-sigomap-gris uppercase tracking-wider transition-all duration-300",
                 isCollapsed && "text-center"
             )}>
-                {isCollapsed ? 'CP' : 'Commande Publique'}
+                {isCollapsed ? moduleTitle.substring(0, 2) : moduleTitle}
             </h3>
         </div>
 
-        {navItems.map((item) => {
+        {navItems && navItems.map((item) => {
           if (item.type === 'link') {
-            const isActive = pathname === item.href;
+            const isActive = pathname.startsWith(item.href) && (item.href !== '/' || pathname === '/');
             return (
               <div key={item.label}>
                 <Link

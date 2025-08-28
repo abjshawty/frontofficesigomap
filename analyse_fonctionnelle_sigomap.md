@@ -264,16 +264,17 @@ Ce processus démarre à partir d'une opération préalablement validée et publ
 
 Ce module décrit l'espace de travail sécurisé où les membres de la commission analysent les offres soumises par les OE. Il se situe chronologiquement après la clôture de la soumission des offres et avant la publication des résultats.
 
-### Parcours Utilisateur
+### Parcours Utilisateur Détaillé
 
-1.  Les membres de la commission sont notifiés et se connectent à la plateforme.
+1.  Les membres de la commission sont notifiés (par email et sur la plateforme) et se connectent.
 2.  Ils accèdent à un tableau de bord listant les sessions d'ouverture auxquelles ils sont conviés.
-3.  Ils entrent dans l'espace de travail de la session concernée.
-4.  À la date et l'heure prévues, le système déverrouille l'accès aux offres ("ouverture du coffre-fort").
-5.  Les membres consultent les pièces techniques et financières de chaque soumissionnaire.
-6.  Ils procèdent à l'évaluation via un formulaire structuré, en jugeant la recevabilité et la conformité de chaque pièce.
-7.  Une fois l'analyse terminée, ils délibèrent et consignent le résultat final de l'attribution.
-8.  La séance est officiellement clôturée dans le système, ce qui génère un procès-verbal et transmet le résultat à l'AC pour la prochaine étape (publication).
+3.  Ils entrent dans l'espace de travail de la session, qui est initialement "scellé".
+4.  À la date et l'heure prévues, le système déverrouille l'accès aux offres ("ouverture du coffre-fort numérique").
+5.  Les membres consultent les pièces administratives, techniques et financières de chaque soumissionnaire.
+6.  **Évaluation Guidée**: Pour chaque soumissionnaire, les membres remplissent la grille d'évaluation (définie dans le DAO), critère par critère. Le système totalise les scores et vérifie la conformité automatiquement.
+7.  **Étape de Pré-validation**: Une fois toutes les offres évaluées, le président initie la "pré-validation". Le système génère un **rapport de synthèse provisoire** affichant le classement et les motifs de rejet/acceptation pour chaque offre.
+8.  **Délibération et Clôture**: Les membres délibèrent en se basant sur ce rapport de synthèse. Après accord, le président clique sur "Clôturer la séance", une action qui demande une confirmation forte (modale récapitulative).
+9.  **Génération des Documents Finaux**: La clôture génère le Procès-Verbal (PV) d'ouverture et le rapport d'analyse final, qui sont transmis à l'AC pour la suite du processus (publication des résultats).
 
 ### Écrans, Champs et Interactions
 
@@ -286,28 +287,38 @@ Ce module décrit l'espace de travail sécurisé où les membres de la commissio
 | Référence Appel d'Offres | String |
 | Objet | String |
 | Date d'ouverture | DateTime |
-| Statut | String (`À venir`, `En cours`, `Clôturée`) |
+| Statut | String (`À venir`, `En cours`, `En pré-validation`, `Clôturée`) |
 
 #### Écran 2 : Espace de Travail de la Séance
-- **Vue**: Interface principale de la commission. Affiche la liste des OE ayant soumissionné.
+- **Vue**: Interface principale de la commission. Affiche la liste des OE ayant soumissionné et l'état d'avancement de leur évaluation.
 - **Interactions**:
     - Sélectionner un OE pour voir le détail de son offre (documents techniques, financiers).
     - Accéder au formulaire d'évaluation pour chaque OE.
-    - Action de "Clôturer la séance" une fois toutes les évaluations terminées.
+    - Bouton "Lancer la pré-validation" (visible uniquement par le président, une fois toutes les évaluations terminées).
 
 #### Écran 3 : Formulaire d'Évaluation des Offres
-- **Vue**: Grille ou formulaire permettant de juger, critère par critère, l'offre d'un OE.
+- **Vue**: Grille reprenant fidèlement les critères du DAO, permettant de juger, critère par critère, l'offre d'un OE.
 - **Champs possibles par critère**:
     - `Statut` (Dropdown : `Conforme`, `Non conforme`, `À vérifier`)
     - `Note` (Number)
     - `Avis / Commentaire` (Textarea)
 - **Interaction**: "Enregistrer l'évaluation" pour chaque OE.
 
+#### Écran 4 : Vue de Pré-validation et Clôture (Nouveau)
+- **Acteur**: Principalement le Président.
+- **Vue**: Affiche le rapport de synthèse généré (classement des offres, scores, etc.).
+- **Interactions**:
+    - "Télécharger le rapport provisoire (PDF)".
+    - Bouton "Clôturer Définitivement la Séance".
+        - Ouvre une modale de confirmation : "Vous êtes sur le point de clôturer la séance. Cette action est irréversible et générera le PV final. Confirmez-vous l'attribution à [Nom de l'attributaire] ?"
+        - Boutons "Confirmer la clôture" / "Annuler".
+
 ***
 **Opérations CRUD sur les données :**
-*   **Session COJO** : Read (liste), Update (changement de statut à la clôture).
+*   **Session COJO** : Read (liste), Update (changement de statut).
 *   **Offre OE** : Read.
 *   **Évaluation d'Offre** : Create, Read, Update.
+*   **Rapport/PV** : Create (à la clôture).
 ***
 
 ---

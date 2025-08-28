@@ -1,35 +1,30 @@
 "use client"
 
-import {
-  GanttChartSquare,
-  Gavel,
-  Handshake,
-  Stamp,
-  Rocket,
-  Building2,
-  CircleHelp,
-  LogOut,
-} from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { CircleHelp, LogOut } from "lucide-react"
+import { modules } from "@/config/nav-config"
 
 const logoSrc = "/assets/armoiries_ci.png"
 
 export function CompactSidebar() {
   const pathname = usePathname()
 
-  const navModules = [
-    { name: "Marchés", href: "/dashboard", icon: GanttChartSquare, label: "Gestion des Marchés" },
-    { name: "COJO", href: "/cojo", icon: Gavel, label: "Travaux COJO" },
-    { name: "CONTRACT", href: "/contractualisation", icon: Handshake, label: "Contractualisation" },
-    { name: "VALIDATION", href: "/validation", icon: Stamp, label: "Validation DGMP" },
-    { name: "START", href: "/demarrage", icon: Rocket, label: "Démarrage Marché" },
-    { name: "OE", href: "/portail-oe", icon: Building2, label: "Portail Opérateur" },
-  ]
-
-  // Détermine le module actif en regardant le début du chemin de l'URL
-  const activeModule = navModules.find((item) => pathname.startsWith(item.href))?.name
+  // Détermine le module actif en trouvant la correspondance la plus spécifique (le plus long chemin)
+  const activeModule = modules
+    .map(item => {
+        const matchingPath = item.activeFor
+            .filter(path => pathname.startsWith(path))
+            .sort((a, b) => b.length - a.length)[0]; // Trouve le plus long préfixe correspondant
+        
+        return {
+            name: item.name,
+            matchLength: matchingPath ? matchingPath.length : 0
+        };
+    })
+    .filter(item => item.matchLength > 0)
+    .sort((a, b) => b.matchLength - a.matchLength)[0]?.name;
 
   return (
     <div className="w-20 bg-sigomap-bg-secondary border-r border-sigomap-gris-light flex flex-col">
@@ -39,7 +34,7 @@ export function CompactSidebar() {
         </div>
       </div>
       <div className="flex-1 py-4 space-y-2">
-        {navModules.map((item) => (
+        {modules.map((item) => (
           <Link
             key={item.name}
             href={item.href}

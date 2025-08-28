@@ -79,7 +79,7 @@ export default function ProcedureDetailPage() {
 
   return (
     <MainLayout>
-      <div className="space-y-6 max-w-4xl mx-auto">
+      <div className="space-y-6">
         <div className="flex justify-between items-start">
             <div className="flex items-center gap-4">
                 <Button variant="outline" size="icon" onClick={() => router.push('/procedures-derogatoires')}>
