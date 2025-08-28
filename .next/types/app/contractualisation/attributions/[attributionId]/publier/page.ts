@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\contractualisation\attributions\[attributionId]\publier\page.tsx
+// File: /home/v2/COJO/app/contractualisation/attributions/[attributionId]/publier/page.tsx
 import * as entry from '../../../../../../../app/contractualisation/attributions/[attributionId]/publier/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

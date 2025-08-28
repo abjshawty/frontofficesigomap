@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\validation\dossiers\[dossierId]\page.tsx
+// File: /home/v2/COJO/app/validation/dossiers/[dossierId]/page.tsx
 import * as entry from '../../../../../../app/validation/dossiers/[dossierId]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

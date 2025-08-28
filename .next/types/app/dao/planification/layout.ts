@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\dao\planification\layout.tsx
+// File: /home/v2/COJO/app/dao/planification/layout.tsx
 import * as entry from '../../../../../app/dao/planification/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

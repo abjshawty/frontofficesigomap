@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\cojo\[sessionId]\evaluer\page.tsx
+// File: /home/v2/COJO/app/cojo/[sessionId]/evaluer/page.tsx
 import * as entry from '../../../../../../app/cojo/[sessionId]/evaluer/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

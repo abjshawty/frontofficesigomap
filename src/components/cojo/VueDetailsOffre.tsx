@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
-import { Button } from "@/components/ui/Button"
-import { Download, FileText, Paperclip } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/Button";
+import { Download, FileText, Paperclip } from "lucide-react";
 
 // Mock data for a bidder's offer
 const offreDetails = {
@@ -21,9 +21,9 @@ const offreDetails = {
         { id: "doc-fin-1", nom: "Bordereau des Prix Unitaires (BPU).pdf", url: "#" },
         { id: "doc-fin-2", nom: "Détail Quantitatif Estimatif (DQE).pdf", url: "#" },
     ]
-}
+};
 
-function DocumentList({ title, documents }: { title: string, documents: {id: string, nom: string, url: string}[] }) {
+function DocumentList ({ title, documents }: { title: string, documents: { id: string, nom: string, url: string; }[]; }) {
     return (
         <Card>
             <CardHeader>
@@ -50,30 +50,30 @@ function DocumentList({ title, documents }: { title: string, documents: {id: str
                 </ul>
             </CardContent>
         </Card>
-    )
+    );
 }
 
 interface VueDetailsOffreProps {
     offre: typeof offreDetails;
 }
 
-export function VueDetailsOffre({ offre }: VueDetailsOffreProps) {
-  return (
-    <Tabs defaultValue="administratif" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="administratif">Pièces Administratives</TabsTrigger>
-            <TabsTrigger value="technique">Offre Technique</TabsTrigger>
-            <TabsTrigger value="financiere">Offre Financière</TabsTrigger>
-        </TabsList>
-        <TabsContent value="administratif" className="mt-4">
-            <DocumentList title="Documents Administratifs" documents={offre.documentsAdministratifs} />
-        </TabsContent>
-        <TabsContent value="technique" className="mt-4">
-            <DocumentList title="Documents Techniques" documents={offre.offreTechnique} />
-        </TabsContent>
-        <TabsContent value="financiere" className="mt-4">
-            <DocumentList title="Documents Financiers" documents={offre.offreFinanciere} />
-        </TabsContent>
-    </Tabs>
-  )
+export function VueDetailsOffre ({ offre }: VueDetailsOffreProps) {
+    return (
+        <Tabs defaultValue="administratif" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="administratif">Pièces Administratives</TabsTrigger>
+                <TabsTrigger value="technique">Offre Technique</TabsTrigger>
+                <TabsTrigger value="financiere">Offre Financière</TabsTrigger>
+            </TabsList>
+            <TabsContent value="administratif" className="mt-4">
+                <DocumentList title="Documents Administratifs" documents={offre.documentsAdministratifs} />
+            </TabsContent>
+            <TabsContent value="technique" className="mt-4">
+                <DocumentList title="Documents Techniques" documents={offre.offreTechnique} />
+            </TabsContent>
+            <TabsContent value="financiere" className="mt-4">
+                <DocumentList title="Documents Financiers" documents={offre.offreFinanciere} />
+            </TabsContent>
+        </Tabs>
+    );
 }

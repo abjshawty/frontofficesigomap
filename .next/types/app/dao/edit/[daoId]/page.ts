@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\dao\edit\[daoId]\page.tsx
+// File: /home/v2/COJO/app/dao/edit/[daoId]/page.tsx
 import * as entry from '../../../../../../app/dao/edit/[daoId]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

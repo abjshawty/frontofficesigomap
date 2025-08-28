@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\procedures-derogatoires\page.tsx
+// File: /home/v2/COJO/app/procedures-derogatoires/page.tsx
 import * as entry from '../../../../app/procedures-derogatoires/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

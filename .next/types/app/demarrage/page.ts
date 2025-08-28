@@ -1,4 +1,4 @@
-// File: C:\Users\HP\OneDrive\Bureau\infos-sigomap\app\demarrage\page.tsx
+// File: /home/v2/COJO/app/demarrage/page.tsx
 import * as entry from '../../../../app/demarrage/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
